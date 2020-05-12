@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        
+        
+        <div class="col-8 content_block">
+    
+        {% include 'messages.html' %}
+
+
+        {{news.text|safe}}
+
+        {% if news.comments %}
+            <h3>Комментарии:</h3>
+            {%for comment in news.comments %}
+
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">{{comment.text}}</p>
+                    <p class="card-text">
+                        <small>Автор: {{comment.user.username}} |
+                        Опубликовано: {{comment.created.strftime('%d.%m.%Y')}} 
+                        </small>
+                    </p> 
+                    
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if current_user.is_authenticated %} 
+
+            <form action="{{ url_for('news.add_comment') }}" method="POST">
+                {{commentForm.hidden_tag()}}
+                <div class = 'form-group'>
+                    {{ commentForm.text.label}} 
+                    {{ commentForm.text() }}
+                </div>
+                <p> {{ commentForm.submit }} </p>
+            </form>
+        {%else%}
+            <p><a href="{{url_for('user.login', next=request.full_path)}}">Авторизуйтесь</a> чтобы добавить комментарий</p>
+        {%endif%}
+        </div>
+        <div class="col-4">
+            <h2>Похожие статье</h2>
+            <div>В разработке </div>
+            
+
+        </div>
+    </div>
+
+{% endblock %}
