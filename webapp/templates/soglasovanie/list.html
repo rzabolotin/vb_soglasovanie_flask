@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark"> 
+      <tr>
+        <th scope="col">Номер</th>
+        <th scope="col">Бизнес процесс</th>
+        <th scope="col">Наименование</th>
+        <th scope="col">Согласователь</th>
+        <th scope="col">Вердикт</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+        
+        {% for task in list_of_tasks %} 
+
+        <tr>
+            <th scope="row">{{task.task_id}}</th>
+            <td>{{task.bp.bp_id}}</td>
+            <td>{{task.bp.title}}</td>
+            <td>{{task.user_id}}</td>
+            <td>{{task.verdict}}</td>
+            <td><a> Подробнее </a> </td>
+          </tr>
+
+        {% endfor %}
+        
+    </tbody>
+    </div>
+{% endblock %}

@@ -11,7 +11,7 @@ def index():
     
     page_title = 'Все согласования'
     list_of_tasks = SoglasovanieTask.query.all()
-    return render_template('soglasovanie/soglasovanie_all.html', 
+    return render_template('soglasovanie/list.html', 
         page_title=page_title,  
         list_of_tasks=list_of_tasks
         )
