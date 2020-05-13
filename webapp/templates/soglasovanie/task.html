@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $("#form-control").hide("display", "none");
+            $("input:radio").on("change", function(){
+            if ($("#declineRadio:input").prop("checked") || $("#mistakeRadio:input").prop("checked")){
+                    $("#form-control").show(700);
+            }else{ $("#form-control").hide(700);}
+            });
+        });
+</script>
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" action="{{url_for("soglasovanie.perform_task")}}" class="bs-example form-horizontal">
+        <fieldset>
+        <legend>
+            Утверждение заявки на оплату <br>
+            Бизнес процесс № {{task.bp_id}}<br> 
+            <b>{{task.bp.title}}</b><br>
+        </legend>
+        
+        <input name="task_number" type="hidden" value="{{task.task_id}}">
+        <input name="bp_type" type="hidden" value="{{task.bp.bp_type}}">
+        
+        <div class="form-group">
+            <div>{{task.bp.description}}</div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="form-check form-check-inline mySuccess w-100">
+                    <input class="form-check-input d-none" type="radio" name="resRadio" id="successRadio" value="success" checked="trus">
+                    <label class="success  btn btn-success" for="successRadio">
+                        Утвердить
+                    </label>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-check form-check-inline myMistake w-100">
+                    <input class="form-check-input d-none" type="radio" name="resRadio" id="mistakeRadio" value="mistake">
+                    <label class="mistake btn btn-warning text-white" for="mistakeRadio">
+                        Отправить замечание
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group" id="form-control">
+            <div>
+                <span style="color: red">Укажите ваше замечание</span><br>
+                <textarea name="message" class="form-control"></textarea>
+            </div>
+        </div>
+            
+        <input name="accept" type="submit" value="Отправить" class="btn btn-primary">
+        
+        </fieldset>
+
+    </form>
+
+{% endblock %}

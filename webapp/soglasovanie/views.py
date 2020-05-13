@@ -15,3 +15,26 @@ def index():
         page_title=page_title,  
         list_of_tasks=list_of_tasks
         )
+
+
+@blueprint.route('/show_task/<int:task_id>')
+def show_task(task_id:int):
+    
+    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_id).first()
+    if not task:
+        abort(404)
+
+    page_title = task.bp.title
+    return render_template('soglasovanie/task.html',
+        page_title = page_title,
+        task = task
+        )
+
+@blueprint.route('/perform_task', methods=['POST'])
+def perform_task():
+    page_title = f'Задача'
+    return render_template('soglasovanie/task.html',
+        page_title = page_title,
+        task_info = {}
+        )
+
