@@ -8,8 +8,8 @@
       <th scope="col">Номер</th>
       <th scope="col">Бизнес процесс</th>
       <th scope="col">Наименование</th>
-      <th scope="col">Согласователь</th>
-      <th scope="col">Вердикт</th>
+      
+      <th scope="col" style="width: 170px; text-align: center;">Вердикт</th>
     </tr>
   </thead>
   <tbody>
@@ -20,10 +20,24 @@
           <th scope="row">{{task.task_id}}</th>
           <td>{{task.bp.bp_id}}</td>
           <td>{{task.bp.title}}</td>
-          <td>{{task.user_id}}</td>
-          <td>
+
+          <td  style="text-align: center;">
             {%if task.verdict %} 
-              {{task.verdict}}
+              {% if task.verdict == 'success'%}
+                <span class='badge badge-success'>Согласовано</span>
+              {% elif task.verdict == 'mistake'%}
+                <span class='badge badge-warning'>Отклонено</span>
+              {% else %}
+                <span class='badge badge-danger'>{{task.verdict}}</span>
+              {% endif %}
+              <br>
+              {% if task.verdict_date%}
+
+                {{task.verdict_date.strftime('%H:%M %d.%m.%Y')}}
+
+              {% endif %}
+
+
             {%endif%}
           
           </td>

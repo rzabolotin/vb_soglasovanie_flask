@@ -1,7 +1,10 @@
-from flask import abort,Blueprint, flash, current_app, render_template, redirect, request
+from datetime import datetime
+
+from flask import abort,Blueprint, flash, current_app, render_template, redirect, request, url_for
 from flask_login import current_user, login_required
 
 from webapp.model import db
+from webapp.soglasovanie.forms import TaskForm
 from webapp.soglasovanie.models import SoglasovanieTask
 
 blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
@@ -25,16 +28,30 @@ def show_task(task_id:str):
         abort(404)
 
     page_title = task.bp.title
+    form = TaskForm(task_id=task_id, bp_type = task.bp.bp_type)
     return render_template('soglasovanie/task.html',
         page_title = page_title,
-        task = task
+        task = task,
+        form = form
         )
 
 @blueprint.route('/perform_task', methods=['POST'])
 def perform_task():
-    page_title = f'Задача'
-    return render_template('soglasovanie/task.html',
-        page_title = page_title,
-        task = {}
-        )
+    taskForm = TaskForm()
+    if taskForm.validate_on_submit():
+        
+        task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == taskForm.task_id.data).first()
+        task.verdict = taskForm.verdict.data
+        task.verdict_date = datetime.now()
+        task.message = taskForm.message.data
+        db.session.commit()
+
+        flash('Задача выполнена')
+        return redirect(url_for('soglasovanie.index'))
+
+    else:
+        for field, errors in taskForm.errors.items():
+            for error in errors:
+                flash(error)
+        return redirect(url_for('soglasovanie.show_task', task_id=taskForm.task_id.data))
 
