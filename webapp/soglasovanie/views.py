@@ -29,6 +29,13 @@ def show_task(task_id:str):
 
     page_title = task.bp.title
     form = TaskForm(task_id=task_id, bp_type = task.bp.bp_type)
+    
+    form.verdict = task.verdict
+    form.message = task.message
+    
+    if verdict_from_params := request.args.get('verdict'):
+        form.verdict = verdict_from_params
+    
     return render_template('soglasovanie/task.html',
         page_title = page_title,
         task = task,
@@ -53,5 +60,5 @@ def perform_task():
         for field, errors in taskForm.errors.items():
             for error in errors:
                 flash(error)
-        return redirect(url_for('soglasovanie.show_task', task_id=taskForm.task_id.data))
+        return redirect(url_for('soglasovanie.show_task', task_id=taskForm.task_id.data, verdict=taskForm.verdict.data))
 

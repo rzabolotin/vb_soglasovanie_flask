@@ -28,11 +28,14 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
-        $("#form-control").hide("display", "none");
-            $("input:radio").on("change", function(){
+        {% if form.verdict != 'mistake' %}
+            $("#messageBox").hide("display", "none");
+        {% endif %}
+        
+        $("input:radio").on("change", function(){
             if ($("#declineRadio:input").prop("checked") || $("#mistakeRadio:input").prop("checked")){
-                    $("#form-control").show(700);
-            }else{ $("#form-control").hide(700);}
+                    $("#messageBox").show(700);
+            }else{ $("#messageBox").hide(700);}
             });
         });
 </script>
@@ -52,11 +55,21 @@
 
 <form method="POST" action="{{url_for('soglasovanie.perform_task')}}" >
     {{form.hidden_tag()}}
-        
+
+    {% set checked_success = False %}
+    {% set checked_mistake = False %}
+    {% if form.verdict == 'success' %}
+        {% set checked_success = True %}
+    {% elif form.verdict == 'mistake' %}
+        {% set checked_mistake = True %}
+    {% else %}
+        {% set checked_success = True %}
+    {% endif %}
+
     <div class="row">
         <div class="col-12 col-md-4">
             <div class="form-check form-check-inline mySuccess w-100">
-                <input class="form-check-input d-none" type="radio" name="verdict" id="successRadio" value="success" checked="trus">
+                <input class="form-check-input d-none" type="radio" name="verdict" id="successRadio" value="success" {% if checked_success %} checked {% endif %}>
                 <label class="success  btn btn-success" for="successRadio">
                     Утвердить
                 </label>
@@ -64,20 +77,18 @@
         </div>
         <div class="col-12 col-md-4">
             <div class="form-check form-check-inline myMistake w-100">
-                <input class="form-check-input d-none" type="radio" name="verdict" id="mistakeRadio" value="mistake">
+                <input class="form-check-input d-none" type="radio" name="verdict" id="mistakeRadio" value="mistake" {% if checked_mistake %} checked {% endif %}>
                 <label class="mistake btn btn-warning text-white" for="mistakeRadio">
                     Отправить замечание
                 </label>
             </div>
         </div>
-        
-    
     </div>
 
-    <div class="form-group" id="form-control">
+    <div class="form-group" id="messageBox">
         <div>
             <span style="color: red">Укажите ваше замечание</span><br>
-            <textarea name="message" class="form-control"></textarea>
+            <textarea name="message" class="form-control">{{form.message}}</textarea>
         </div>
     </div>
     
