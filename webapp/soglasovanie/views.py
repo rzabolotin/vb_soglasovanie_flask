@@ -10,16 +10,27 @@ from webapp.soglasovanie.models import SoglasovanieTask
 blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 
 @blueprint.route('/')
-def index():
+@blueprint.route('/<string:task_filter>')
+@login_required
+def index(task_filter:str=None):
     
+    if task_filter == 'active':
+        list_of_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.verdict == None).all()
+    elif task_filter == 'closed':
+        list_of_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.verdict != None).all()
+    else:
+        list_of_tasks = SoglasovanieTask.query.all()
     page_title = 'Все согласования'
-    list_of_tasks = SoglasovanieTask.query.all()
+    
+    
     return render_template('soglasovanie/list.html', 
         page_title=page_title,  
+        task_filter=task_filter,
         list_of_tasks=list_of_tasks
         )
 
 
+@login_required
 @blueprint.route('/show_task/<string:task_id>')
 def show_task(task_id:str):
     
@@ -42,6 +53,7 @@ def show_task(task_id:str):
         form = form
         )
 
+@login_required
 @blueprint.route('/perform_task', methods=['POST'])
 def perform_task():
     taskForm = TaskForm()
@@ -54,7 +66,7 @@ def perform_task():
         db.session.commit()
 
         flash('Задача выполнена')
-        return redirect(url_for('soglasovanie.index'))
+        return redirect(url_for('soglasovanie.index', task_filter='active'))
 
     else:
         for field, errors in taskForm.errors.items():
