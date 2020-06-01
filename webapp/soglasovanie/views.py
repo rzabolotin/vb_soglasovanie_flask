@@ -14,12 +14,14 @@ blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 @login_required
 def index(task_filter:str=None):
     
+    user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
+    
     if task_filter == 'active':
-        list_of_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.verdict == None).all()
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None).all()
     elif task_filter == 'closed':
-        list_of_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.verdict != None).all()
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None).all()
     else:
-        list_of_tasks = SoglasovanieTask.query.all()
+        list_of_tasks = user_tasks.all()
     page_title = 'Все согласования'
     
     

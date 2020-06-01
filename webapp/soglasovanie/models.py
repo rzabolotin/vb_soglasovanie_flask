@@ -14,13 +14,15 @@ class BusinessProcess(db.Model):
 
 class SoglasovanieTask(db.Model):
     task_id = db.Column(db.String(20), primary_key=True, autoincrement=False)
-    bp_id = db.Column(db.String(20), db.ForeignKey('business_process.bp_id'), index=True)
-    user_id = db.Column(db.String, nullable=False)
+    bp_id = db.Column(db.String(20), db.ForeignKey('business_process.bp_id'), index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     verdict = db.Column(db.String)
     message = db.Column(db.String)
     verdict_date = db.Column(db.DateTime)
+    verdict_send_to_1c = db.Column(db.Boolean)
 
     bp = relationship('BusinessProcess', backref='tasks')
+    user = relationship('User', backref='tasks')
 
     def __repr__(self):
         return '<Soglasovanie task {} {}>'.format(self.task_id, self.user_id)
