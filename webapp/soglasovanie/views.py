@@ -46,7 +46,8 @@ def show_task(task_id:str):
     form.verdict = task.verdict
     form.message = task.message
     
-    if verdict_from_params := request.args.get('verdict'):
+    verdict_from_params = request.args.get('verdict')
+    if verdict_from_params:
         form.verdict = verdict_from_params
     
     return render_template('soglasovanie/task.html',
