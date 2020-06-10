@@ -27,3 +27,12 @@ class SoglasovanieTask(db.Model):
     def __repr__(self):
         return '<Soglasovanie task {} {}>'.format(self.task_id, self.user_id)
 
+    def api_repr(self):
+        return {
+            'task_id': self.task_id,
+            'bp_id': self.bp_id,
+            'user': self.user.username,
+            'verdict': self.verdict,
+            'message': self.message,
+            'verdict_date': self.verdict_date
+        }

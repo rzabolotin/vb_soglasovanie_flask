@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 
 from webapp.admin.views import MyModelView, MyAdminIndexView, MyUserView
+from webapp.api.views import blueprint as api_blueprint
 from webapp.model import db
 from webapp.soglasovanie.views import blueprint as soglasovanie_blueprint
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess
@@ -22,6 +23,7 @@ def create_app():
     login_manager.login_view = 'user.login'
     login_manager.login_message = 'Для доступа к сайту необходимо авторизоваться'
 
+    app.register_blueprint(api_blueprint)
     app.register_blueprint(soglasovanie_blueprint)
     app.register_blueprint(user_blueprint)
 
