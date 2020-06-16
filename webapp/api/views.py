@@ -1,3 +1,5 @@
+import json
+
 from flask import abort, Blueprint, current_app, jsonify, make_response, request
 from flask_login import current_user, login_required
 from sqlalchemy.ext.declarative import DeclarativeMeta
@@ -20,6 +22,18 @@ def get_task(task_id:str):
 
 @blueprint.route('/post_task', methods=['POST'])
 def post_task():
+       
+    data_decode = request.data.decode('utf8')
+
+    data_json = json.loads(data_decode)
+
+    current_app.logger.info(data_json)
+
+    return data_json
+    
+    
+    """
+    
     if not request.json or not 'task_id' in request.json:
         abort(400)
     
@@ -68,3 +82,4 @@ def post_task():
 @blueprint.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error':'not found'}), 404)
+"""
