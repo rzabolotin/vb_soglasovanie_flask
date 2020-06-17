@@ -43,30 +43,30 @@ def post_task():
     if not data_json or not 'task_id' in data_json:
         abort(400)
     
-    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == data_json.task_id)
+    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == data_json["task_id"])
     
     if task:
         abort(400)
 
-    user = User.query.filter(User.username == data_json.user).first()
+    user = User.query.filter(User.username == data_json["user"]).first()
 
     if not user:
-        user = User(username=data_json.user)
+        user = User(username=data_json["user"])
         db.session.add(user)
 
-    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == data_json.bp_id).first()
+    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == data_json["bp_id"]).first()
 
     if not bp:
         bp = BusinessProcess(
-            bp_id = data_json.bp_id,
-            bp_type = data_json.bp_type,
-            title = data_json.bp_title,
-            description = data_json.bp_description
+            bp_id = data_json["bp_id"],
+            bp_type = data_json["bp_type"],
+            title = data_json["bp_title"],
+            description = data_json["bp_description"]
         )
         db.session.add(bp)
 
     task = SoglasovanieTask(
-        task_id = data_json.task_id,
+        task_id = data_json["task_id"],
         bp_id = bp.bp_id,
         user_id = user.id,
     ) 
