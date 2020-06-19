@@ -58,10 +58,13 @@
 
     {% set checked_success = False %}
     {% set checked_mistake = False %}
+    {% set disabled_form = False %}
     {% if form.verdict == 'success' %}
         {% set checked_success = True %}
+        {% set disabled_form = True %}
     {% elif form.verdict == 'mistake' %}
         {% set checked_mistake = True %}
+        {% set disabled_form = True %}
     {% else %}
         {% set checked_success = True %}
     {% endif %}
@@ -69,7 +72,11 @@
     <div class="row">
         <div class="col-12 col-md-4">
             <div class="form-check form-check-inline mySuccess w-100">
-                <input class="form-check-input d-none" type="radio" name="verdict" id="successRadio" value="success" {% if checked_success %} checked {% endif %}>
+                <input class="form-check-input d-none" type="radio" name="verdict" id="successRadio"
+                       value="success"
+                       {% if checked_success %} checked {% endif %}
+                       {% if disabled_form %} disabled {% endif %}
+                >
                 <label class="success  btn btn-success" for="successRadio">
                     Утвердить
                 </label>
@@ -77,7 +84,11 @@
         </div>
         <div class="col-12 col-md-4">
             <div class="form-check form-check-inline myMistake w-100">
-                <input class="form-check-input d-none" type="radio" name="verdict" id="mistakeRadio" value="mistake" {% if checked_mistake %} checked {% endif %}>
+                <input class="form-check-input d-none" type="radio" name="verdict" id="mistakeRadio"
+                       value="mistake"
+                       {% if checked_mistake %} checked {% endif %}
+                       {% if disabled_form %} disabled {% endif %}
+                >
                 <label class="mistake btn btn-warning text-white" for="mistakeRadio">
                     Отправить замечание
                 </label>
@@ -88,7 +99,7 @@
     <div class="form-group" id="messageBox">
         <div>
             <span style="color: red">Укажите ваше замечание</span><br>
-            <textarea name="message" class="form-control">{% if form.message %}{{form.message}}{% endif %}</textarea>
+            <textarea name="message" class="form-control" {% if disabled_form %} disabled {% endif %}>{% if form.message %}{{form.message}}{% endif %}</textarea>
 
         </div>
     </div>
