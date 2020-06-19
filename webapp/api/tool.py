@@ -1,7 +1,10 @@
 from dataclasses import dataclass
 import json
 
+from flask import current_app, request
+
 from webapp.model import ma
+
 
 @dataclass
 class TaskInfo:
@@ -25,6 +28,13 @@ def parse_post_data(raw_data):
         return None
 
     return TaskInfo(**data_json)
+
+
+def api_key_is_correct():
+    client_api_key = request.args.get('api_key')
+    if client_api_key != current_app.config['API_KEY']:
+        return False
+    return True
 
 
 class TaskSchema(ma.Schema):

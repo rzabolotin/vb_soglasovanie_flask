@@ -3,7 +3,7 @@ from flask import abort, Blueprint, jsonify, make_response, request
 from webapp.model import db
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess
 from webapp.user.models import User
-from webapp.api.tool import parse_post_data, task_schema, tasks_schema
+from webapp.api.tool import api_key_is_correct, parse_post_data, task_schema, tasks_schema
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -11,7 +11,10 @@ blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 @blueprint.route('/get_task/<string:task_id>', methods=['GET'])
 def get_task(task_id:str):
-    
+
+    if not api_key_is_correct():
+        abort(403)
+
     task = SoglasovanieTask.query.get(task_id)
     if not task:
         return abort(404)
@@ -22,13 +25,18 @@ def get_task(task_id:str):
 @blueprint.route('/get_tasks', methods=['GET'])
 def get_tasks():
 
+    if not api_key_is_correct():
+        abort(403)
+
     tasks = SoglasovanieTask.query.all()
-    result = tasks_schema.dumps(tasks)
-    return jsonify(result)
+    return tasks_schema.dumps(tasks)
 
 
 @blueprint.route('/post_task', methods=['POST'])
 def post_task():
+
+    if not api_key_is_correct():
+        abort(403)
 
     task_info = parse_post_data(request.data)
     if not task_info:
@@ -66,11 +74,16 @@ def post_task():
     return task_schema.jsonify(task)
 
 
-@blueprint.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error':'not found'}), 404)
-
-
 @blueprint.errorhandler(400)
 def not_found(error):
     return make_response(jsonify({'error':'bad request'}), 400)
+
+
+@blueprint.errorhandler(403)
+def not_found(error):
+    return make_response(jsonify({'error':'please, enter correct api key'}), 403)
+
+
+@blueprint.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error':'not found'}), 404)
