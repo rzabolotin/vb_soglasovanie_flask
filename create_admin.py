@@ -9,7 +9,7 @@ app = create_app()
 with app.app_context():
     username = input("Введите имя пользователя: ")
 
-    if User.query.filter(User.username == username).count():
+    if User.query.filter(User.user_name == username).count():
         print('Пользователь с таким именем уже существует')
         sys.exit(0)
 
@@ -20,14 +20,12 @@ with app.app_context():
         print('Пароли не совпадают')
         sys.exit(0)
 
-
     new_user = User(
-        username=username,
+        user_name=username,
         role='admin'
     )
 
     new_user.set_password(password)
-
 
     db.session.add(new_user)
     db.session.commit()

@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 
-from webapp import db
-from webapp.user.forms import LoginForm, RegistrationForm
+from webapp.user.forms import LoginForm
 from webapp.user.models import User
 
 
@@ -28,7 +27,7 @@ def logout():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter(User.username == form.username.data).first()
+        user = User.query.filter(User.user_name == form.user_name.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me)
             flash('Вы успешно вошли на сайт')

@@ -6,13 +6,13 @@ from webapp.model import db
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
+    user_name = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), index=True)
     email = db.Column(db.String(50))
 
     def __repr__(self):
-        return 'User {}'.format(self.username)
+        return 'User {}'.format(self.user_name)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

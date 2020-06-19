@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7e5f32f446aa
+Revision ID: a9da6e374f47
 Revises: 
-Create Date: 2020-06-01 11:33:04.446296
+Create Date: 2020-06-19 11:30:28.134005
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7e5f32f446aa'
+revision = 'a9da6e374f47'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,14 +27,14 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sa.String(length=64), nullable=True),
+    sa.Column('user_name', sa.String(length=64), nullable=True),
     sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('role', sa.String(length=10), nullable=True),
     sa.Column('email', sa.String(length=50), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_user_role'), 'user', ['role'], unique=False)
-    op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
+    op.create_index(op.f('ix_user_user_name'), 'user', ['user_name'], unique=True)
     op.create_table('soglasovanie_task',
     sa.Column('task_id', sa.String(length=20), autoincrement=False, nullable=False),
     sa.Column('bp_id', sa.String(length=20), nullable=False),
@@ -42,7 +42,6 @@ def upgrade():
     sa.Column('verdict', sa.String(), nullable=True),
     sa.Column('message', sa.String(), nullable=True),
     sa.Column('verdict_date', sa.DateTime(), nullable=True),
-    sa.Column('verdict_send_to_1c', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['bp_id'], ['business_process.bp_id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('task_id')
@@ -57,7 +56,7 @@ def downgrade():
     op.drop_index(op.f('ix_soglasovanie_task_user_id'), table_name='soglasovanie_task')
     op.drop_index(op.f('ix_soglasovanie_task_bp_id'), table_name='soglasovanie_task')
     op.drop_table('soglasovanie_task')
-    op.drop_index(op.f('ix_user_username'), table_name='user')
+    op.drop_index(op.f('ix_user_user_name'), table_name='user')
     op.drop_index(op.f('ix_user_role'), table_name='user')
     op.drop_table('user')
     op.drop_table('business_process')

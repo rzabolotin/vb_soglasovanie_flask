@@ -5,11 +5,12 @@ from flask_migrate import Migrate
 
 from webapp.admin.views import MyModelView, MyAdminIndexView, MyUserView
 from webapp.api.views import blueprint as api_blueprint
-from webapp.model import db
+from webapp.model import db, ma
 from webapp.soglasovanie.views import blueprint as soglasovanie_blueprint
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
+
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +18,7 @@ def create_app():
     
     db.init_app(app)
     migrate = Migrate(app, db)
+    ma.init_app(app)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

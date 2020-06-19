@@ -22,7 +22,7 @@ class MyUserView(ModelView):
     # set the form fields to use
     form_columns = (
         'id',
-        'username',
+        'user_name',
         'email',
         'role',
         'password2',

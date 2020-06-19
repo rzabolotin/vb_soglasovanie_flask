@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import json
 
+from webapp.model import ma
 
 @dataclass
 class TaskInfo:
@@ -20,7 +21,19 @@ def parse_post_data(raw_data):
     except json.JSONDecodeError:
         return None
 
-    if not data_json or not 'task_id' in data_json:
+    if not data_json or 'task_id' not in data_json:
         return None
 
     return TaskInfo(**data_json)
+
+
+class TaskSchema(ma.Schema):
+    class Meta:
+        fields = ('task_id', 'bp_id',
+                  'user_id', 'verdict',
+                  'message', 'verdict_date'
+                  )
+
+
+task_schema = TaskSchema()
+tasks_schema = TaskSchema(many=True)

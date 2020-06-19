@@ -9,10 +9,11 @@ from webapp.soglasovanie.models import SoglasovanieTask
 
 blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 
+
 @blueprint.route('/')
 @blueprint.route('/<string:task_filter>')
 @login_required
-def index(task_filter:str=None):
+def index(task_filter: str = None):
     
     user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
     

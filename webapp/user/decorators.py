@@ -3,6 +3,7 @@ from functools import wraps
 from flask import current_app, flash, request, redirect, url_for
 from flask_login import config, current_user
 
+
 def admin_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
