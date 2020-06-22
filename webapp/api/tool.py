@@ -39,10 +39,14 @@ def api_key_is_correct():
 
 class TaskSchema(ma.Schema):
     class Meta:
-        fields = ('task_id', 'bp_id',
-                  'user_id', 'verdict',
-                  'message', 'verdict_date'
+        fields = ('task_id',
+                  'bp_id',
+                  'user_id',
+                  'verdict',
+                  'message',
+                  'verdict_date'
                   )
+        dateformat = '%Y-%m-%dT%H:%M:%S+03:00'
 
 
 task_schema = TaskSchema()
