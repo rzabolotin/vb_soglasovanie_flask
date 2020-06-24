@@ -32,14 +32,9 @@
               {% endif %}
               <br>
               {% if task.verdict_date%}
-
-                {{task.verdict_date.strftime('%H:%M %d.%m.%Y')}}
-
+                {{task.verdict_date | datetime_vl}}
               {% endif %}
-
-
             {%endif%}
-          
           </td>
         </tr>
       {% endfor %}
