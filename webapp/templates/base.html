@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>{{ page_title }}</title>
     
     {% block scripts%}
@@ -29,7 +30,7 @@
               <a class="nav-link" href="{{url_for('soglasovanie.index', task_filter='all')}}">Все задачи</a>
             </li>
             <li class="nav-item">
-                <span class="nav-link">Здравствуйте, {{current_user.user_name}}!</span>
+                <span class="nav-link">{{current_user.user_name}}</span>
             </li>
             {% if current_user.is_admin %}
             <li class="nav-item">
