@@ -2,6 +2,8 @@ from dataclasses import dataclass
 import json
 
 from flask import current_app, request
+from flask_marshmallow import fields
+import pytz
 
 from webapp.model import ma
 
@@ -37,7 +39,16 @@ def api_key_is_correct():
     return True
 
 
+def convert_to_vl_time(time_in_utc):
+    tz_utc = pytz.utc
+    tz_vl = pytz.timezone('Asia/Vladivostok')
+    return tz_utc.localize(time_in_utc, is_dst=None) \
+        .astimezone(tz_vl)
+
+
 class TaskSchema(ma.Schema):
+    verdict_date = fields.fields.DateTime('%Y%m%d%H%M%S')
+
     class Meta:
         fields = ('task_id',
                   'bp_id',
@@ -46,7 +57,6 @@ class TaskSchema(ma.Schema):
                   'message',
                   'verdict_date'
                   )
-        dateformat = '%Y-%m-%dT%H:%M:%S+03:00'
 
 
 task_schema = TaskSchema()

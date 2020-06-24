@@ -3,7 +3,8 @@ from flask import abort, Blueprint, jsonify, make_response, request
 from webapp.model import db
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess
 from webapp.user.models import User
-from webapp.api.tool import api_key_is_correct, parse_post_data, task_schema, tasks_schema
+from webapp.api.tool import api_key_is_correct, convert_to_vl_time,\
+    parse_post_data, task_schema, tasks_schema
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -18,7 +19,9 @@ def get_task(task_id:str):
     task = SoglasovanieTask.query.get(task_id)
     if not task:
         return abort(404)
-    
+
+    task.verdict_date = convert_to_vl_time(task.verdict_date)
+
     return task_schema.jsonify(task)
 
 
@@ -29,6 +32,10 @@ def get_tasks():
         abort(403)
 
     tasks = SoglasovanieTask.query.all()
+
+    for task in tasks:
+        task.verdict_date = convert_to_vl_time(task.verdict_date)
+
     return tasks_schema.dumps(tasks)
 
 
