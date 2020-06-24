@@ -2,6 +2,7 @@ from sqlalchemy.orm import relationship
 
 from webapp.model import db
 
+
 class BusinessProcess(db.Model):
     bp_id = db.Column(db.String(20), primary_key=True, autoincrement=False, )
     title = db.Column(db.String, nullable=False)

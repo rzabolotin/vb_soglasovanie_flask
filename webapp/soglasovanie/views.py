@@ -67,7 +67,7 @@ def perform_task():
     if task_form.validate_on_submit():
 
         task.verdict = task_form.verdict.data
-        task.verdict_date = datetime.now()
+        task.verdict_date = datetime.utcnow()
         task.message = task_form.message.data
         db.session.commit()
 

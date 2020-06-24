@@ -17,11 +17,13 @@ def login():
     login_form = LoginForm()
     return render_template('user/login.html', page_title=title, form = login_form)
 
+
 @blueprint.route('/logout')
 def logout():
     logout_user()
     flash('Вы усешно разлогинились')
     return redirect(url_for('soglasovanie.index', task_filter='active'))
+
 
 @blueprint.route('/process-login', methods=['POST'])
 def process_login():

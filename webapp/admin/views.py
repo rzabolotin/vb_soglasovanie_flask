@@ -6,9 +6,11 @@ from wtforms import PasswordField
 
 from webapp.user.models import User
 
+
 class MyModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
+
 
 class MyUserView(ModelView):
     form_excluded_columns = ('password')
@@ -26,7 +28,7 @@ class MyUserView(ModelView):
         'email',
         'role',
         'password2',
-     )
+    )
 
     def on_model_change(self, form, User, is_created):
         if form.password2.data is not None:
@@ -35,10 +37,11 @@ class MyUserView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
+
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
-        if (not current_user.is_authenticated 
-            or not current_user.is_admin):
+        if (not current_user.is_authenticated
+                or not current_user.is_admin):
             return abort(403)
         return super(MyAdminIndexView, self).index()
