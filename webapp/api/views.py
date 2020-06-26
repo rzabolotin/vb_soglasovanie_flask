@@ -1,7 +1,7 @@
 from flask import abort, Blueprint, jsonify, make_response, request
 
 from webapp.model import db
-from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess
+from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess, FileAttachment
 from webapp.user.models import User
 from webapp.api.tool import api_key_is_correct, convert_to_vl_time,\
     parse_post_data, task_schema, tasks_schema
@@ -79,6 +79,36 @@ def post_task():
     db.session.commit()
 
     return task_schema.jsonify(task)
+
+
+@blueprint.route('/post_file', methods=['POST'])
+def post_file():
+    if not api_key_is_correct():
+        abort(403)
+
+    file_info = parse_post_data(request.data, 'file')
+    if not file_info:
+        return abort(400)
+
+    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == file_info.bp_id).first()
+    if not bp:
+        return abort(404)
+
+    file = FileAttachment.query.filter((FileAttachment.bp_id == file_info.bp_id)
+                                       & (FileAttachment.filename == file_info.filename)).first()
+    if not file:
+        file = FileAttachment(
+            bp_id=file_info.bp_id,
+            filename=file_info.filename,
+            file_type=file_info.file_type
+        )
+        db.session.add(file)
+        db.session.commit()
+
+    file_data = 'Hffffff'
+    file.save_file(file_data)
+
+    return "Файл добавлен на сервер"
 
 
 @blueprint.errorhandler(400)

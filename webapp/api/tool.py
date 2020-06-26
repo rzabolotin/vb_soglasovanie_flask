@@ -4,6 +4,7 @@ import json
 from flask import current_app, request
 from flask_marshmallow import fields
 import pytz
+from werkzeug.utils import secure_filename
 
 from webapp.model import ma
 
@@ -18,7 +19,14 @@ class TaskInfo:
     user: str
 
 
-def parse_post_data(raw_data):
+@dataclass
+class FileInfo:
+    bp_id: str
+    file_type: str
+    filename: str
+
+
+def parse_post_data(raw_data, data_type='task'):
     data_decode = raw_data.decode('utf8')
 
     try:
@@ -26,10 +34,21 @@ def parse_post_data(raw_data):
     except json.JSONDecodeError:
         return None
 
-    if not data_json or 'task_id' not in data_json:
-        return None
+    if data_type == 'task':
+        if not data_json or 'task_id' not in data_json:
+            return None
+        return TaskInfo(**data_json)
 
-    return TaskInfo(**data_json)
+    elif data_type == 'file':
+        if not data_json or 'filename' not in data_json:
+            return None
+
+        file_info = FileInfo(**data_json)
+        file_info.filename = secure_filename(file_info.filename)
+        return file_info
+
+    else:
+        return None
 
 
 def api_key_is_correct():
