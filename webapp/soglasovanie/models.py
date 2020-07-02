@@ -36,17 +36,24 @@ class FileAttachment(db.Model):
     filename = db.Column(db.String, nullable=False)
     bp_id = db.Column(db.String(20), db.ForeignKey('business_process.bp_id'), index=True, nullable=False)
     file_type = db.Column(db.String(20))
+    file_ext = db.Column(db.String)
 
     bp = relationship('BusinessProcess', backref='files')
 
     def __repr__(self):
         return '<File {}>'.format(self.filename)
 
-    def save_file(self, file_raw_data):
+    def get_file_path(self):
+        """
+        Получает путь до расположения файла в папке хранения
+        file_path = FILES_DIR / Номер_БП / Номер_файла.РасширениеФайла
+        """
         base_dir = Path(current_app.config['BP_ATTACHMENT_DIR'])
         bp_dir = base_dir / self.bp_id
         bp_dir.mkdir(parents=True, exist_ok=True)
-        file_path = bp_dir / self.filename
-        with open(file_path, 'w') as f:
-            f.write(file_raw_data)
+        file_name = str(self.file_id) + '.' + self.file_ext
+        return bp_dir / file_name
 
+    def save_file(self, file_raw_data):
+        with open(self.get_file_path(), 'wb') as f:
+            f.write(file_raw_data)

@@ -1,4 +1,4 @@
-from flask import abort, Blueprint, jsonify, make_response, request
+from flask import abort, current_app, Blueprint, jsonify, make_response, request
 
 from webapp.model import db
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess, FileAttachment
@@ -86,7 +86,10 @@ def post_file():
     if not api_key_is_correct():
         abort(403)
 
-    file_info = parse_post_data(request.data, 'file')
+    posted_data = request.form["fileinfo"]
+    posted_file = request.files['datafile'].read()
+
+    file_info = parse_post_data(posted_data, 'file')
     if not file_info:
         return abort(400)
 
@@ -100,13 +103,13 @@ def post_file():
         file = FileAttachment(
             bp_id=file_info.bp_id,
             filename=file_info.filename,
-            file_type=file_info.file_type
+            file_type=file_info.file_type,
+            file_ext=file_info.file_ext
         )
         db.session.add(file)
         db.session.commit()
 
-    file_data = 'Hffffff'
-    file.save_file(file_data)
+    file.save_file(posted_file)
 
     return "Файл добавлен на сервер"
 

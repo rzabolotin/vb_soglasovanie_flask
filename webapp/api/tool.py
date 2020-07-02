@@ -24,10 +24,14 @@ class FileInfo:
     bp_id: str
     file_type: str
     filename: str
+    file_ext: str
 
 
 def parse_post_data(raw_data, data_type='task'):
-    data_decode = raw_data.decode('utf8')
+    if type(raw_data) == str:
+        data_decode = raw_data
+    else:
+        data_decode = raw_data.decode('utf8')
 
     try:
         data_json = json.loads(data_decode)
@@ -44,7 +48,6 @@ def parse_post_data(raw_data, data_type='task'):
             return None
 
         file_info = FileInfo(**data_json)
-        file_info.filename = secure_filename(file_info.filename)
         return file_info
 
     else:
