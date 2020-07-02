@@ -56,4 +56,6 @@ class FileAttachment(db.Model):
 
     def save_file(self, file_raw_data):
         with open(self.get_file_path(), 'wb') as f:
+            current_app.logger.info(f'saving file {self.filename}: {self.get_file_path()}')
             f.write(file_raw_data)
+

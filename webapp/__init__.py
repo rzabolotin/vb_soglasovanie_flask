@@ -34,7 +34,7 @@ def create_app():
     admin.add_view(MyUserView(User, db.session, name="Пользователи", endpoint="user_"))
     admin.add_view(MyModelView(BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"))
     admin.add_view(MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи"))
-    admin.add_view(MyModelView(FileAttachment, db.session, name="Задачи", category="Задачи"))
+    admin.add_view(MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи"))
 
     register_my_jinja_filters(app)
 
