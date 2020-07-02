@@ -7,6 +7,7 @@ from webapp.model import db
 
 
 class BusinessProcess(db.Model):
+    """Бизнес процесс из 1С"""
     bp_id = db.Column(db.String(20), primary_key=True, autoincrement=False, )
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.Text)
@@ -17,6 +18,7 @@ class BusinessProcess(db.Model):
 
 
 class SoglasovanieTask(db.Model):
+    """Задача из 1С, чаще всего (по крайней мере при создании сайта) это задачи на согласование какого-либо БП"""
     task_id = db.Column(db.String(20), primary_key=True, autoincrement=False)
     bp_id = db.Column(db.String(20), db.ForeignKey('business_process.bp_id'), index=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
@@ -32,10 +34,15 @@ class SoglasovanieTask(db.Model):
 
 
 class FileAttachment(db.Model):
+    """
+    Файлы, прикрепленные к Бизнес-процессу
+    Сами файлы храняться отдельно в каталоге указанном в настройках приложения
+    Путь до файла: FILES_DIR / Номер_БП / Номер_файла.РасширениеФайла
+    """
     file_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     filename = db.Column(db.String, nullable=False)
     bp_id = db.Column(db.String(20), db.ForeignKey('business_process.bp_id'), index=True, nullable=False)
-    file_type = db.Column(db.String(20))
+    file_type = db.Column(db.String(50))
     file_ext = db.Column(db.String)
 
     bp = relationship('BusinessProcess', backref='files')

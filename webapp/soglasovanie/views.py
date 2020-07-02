@@ -1,11 +1,12 @@
 from datetime import datetime
+import json
 
-from flask import abort, Blueprint, flash, current_app, render_template, redirect, request, url_for
+from flask import abort, Blueprint, flash, current_app, render_template, redirect, request, send_file, url_for
 from flask_login import current_user, login_required
 
 from webapp.model import db
 from webapp.soglasovanie.forms import TaskForm
-from webapp.soglasovanie.models import SoglasovanieTask
+from webapp.soglasovanie.models import SoglasovanieTask, FileAttachment
 
 blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 
@@ -39,8 +40,10 @@ def show_task(task_id: str):
         abort(404)
 
     page_title = task.bp.title
-    form = TaskForm(task_id=task_id, bp_type=task.bp.bp_type)
+    bp_info = json.loads(task.bp.description)
+    bp_files = task.bp.files
 
+    form = TaskForm(task_id=task_id, bp_type=task.bp.bp_type)
     form.verdict = task.verdict
     form.message = task.message
 
@@ -51,6 +54,8 @@ def show_task(task_id: str):
     return render_template('soglasovanie/task.html',
                            page_title=page_title,
                            task=task,
+                           bp_info=bp_info,
+                           bp_files=bp_files,
                            form=form
                            )
 
@@ -83,3 +88,16 @@ def perform_task():
                                 verdict=task_form.verdict.data
                                 )
                         )
+
+
+@login_required
+@blueprint.route('/get_file/<int:file_id>', methods=['GET'])
+def get_file(file_id: int):
+    file = FileAttachment.query.get(file_id)
+    if not file:
+        abort(404)
+
+    return send_file(file.get_file_path(),
+                     attachment_filename=file.filename,
+                     as_attachment=True
+                     )
