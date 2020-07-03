@@ -50,8 +50,14 @@ def show_task(task_id: str):
 
     page_title = task.bp.title
     bp_info = json.loads(task.bp.description)
-    bp_files = task.bp.files.query(FileAttachment.file_type == "ВложениеБизнесПроцесса")
-    bp_reports = task.bp.files.query(FileAttachment.file_type == "Отчет")
+    bp_files = FileAttachment.query(
+        FileAttachment.bp_id == task.bp_id
+        & FileAttachment.file_type == "ВложениеБизнесПроцесса"
+    )
+    bp_reports = FileAttachment.query(
+        FileAttachment.bp_id == task.bp_id
+        & FileAttachment.file_type == "Отчет"
+    )
 
     form = TaskForm(task_id=task_id, bp_type=task.bp.bp_type)
     form.verdict = task.verdict
