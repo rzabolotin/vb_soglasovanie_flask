@@ -50,11 +50,11 @@ def show_task(task_id: str):
 
     page_title = task.bp.title
     bp_info = json.loads(task.bp.description)
-    bp_files = FileAttachment.query(
+    bp_files = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id)
         & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
-    bp_reports = FileAttachment.query(
+    bp_reports = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id)
         & (FileAttachment.file_type == "Отчет")
     )
