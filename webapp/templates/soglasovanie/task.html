@@ -149,6 +149,22 @@
 
 {% endif %}
 
+{% if bp_reports %}
+
+<br>
+<b> Отчеты: </b>
+
+<ul>
+
+    {% for file_info in bp_reports %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}
 <form method="POST" action="{{url_for('soglasovanie.perform_task')}}" >
     {{form.hidden_tag()}}
 
