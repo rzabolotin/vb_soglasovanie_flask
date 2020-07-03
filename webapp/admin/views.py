@@ -8,11 +8,15 @@ from webapp.user.models import User
 
 
 class MyModelView(ModelView):
+    """Доработаем вьюшку, сделаем доступной только админам"""
+
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
 
 class MyUserView(ModelView):
+    """Сделаем свою функцию, которая хеширует пароль при записи пользователя"""
+
     form_excluded_columns = ('password')
     #  Form will now use all the other fields in the model
 

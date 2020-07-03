@@ -10,6 +10,8 @@ blueprint = Blueprint('user', __name__, url_prefix='/users/')
 
 @blueprint.route('/login')
 def login():
+    """Форма авторизации"""
+
     if current_user.is_authenticated:
         return redirect(url_for('soglasovanie.index', task_filter='active'))
 
@@ -20,6 +22,8 @@ def login():
 
 @blueprint.route('/logout')
 def logout():
+    """Выход из профиля"""
+
     logout_user()
     flash('Вы усешно разлогинились')
     return redirect(url_for('soglasovanie.index', task_filter='active'))
@@ -27,6 +31,8 @@ def logout():
 
 @blueprint.route('/process-login', methods=['POST'])
 def process_login():
+    """Обработка формы авторизации"""
+
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter(User.user_name == form.user_name.data).first()

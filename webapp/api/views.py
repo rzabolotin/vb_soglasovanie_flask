@@ -11,7 +11,8 @@ blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
 @blueprint.route('/get_task/<string:task_id>', methods=['GET'])
-def get_task(task_id:str):
+def get_task(task_id: str):
+    """Выдать описание задачи в формате json"""
 
     if not api_key_is_correct():
         abort(403)
@@ -27,7 +28,10 @@ def get_task(task_id:str):
 
 @blueprint.route('/get_tasks', methods=['GET'])
 def get_tasks():
-
+    """
+    Выдать список всех задач в формте json
+    время выдается в тайм-зоне Владивостока
+    """
     if not api_key_is_correct():
         abort(403)
 
@@ -41,7 +45,7 @@ def get_tasks():
 
 @blueprint.route('/post_task', methods=['POST'])
 def post_task():
-
+    """Загрузить новую задачу (и связанную информацию тоже) на сервер"""
     if not api_key_is_correct():
         abort(403)
 
@@ -83,6 +87,8 @@ def post_task():
 
 @blueprint.route('/post_file', methods=['POST'])
 def post_file():
+    """Загрузить файл к бизнес-процессу"""
+
     if not api_key_is_correct():
         abort(403)
 

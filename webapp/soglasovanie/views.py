@@ -15,6 +15,13 @@ blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 @blueprint.route('/<string:task_filter>')
 @login_required
 def index(task_filter: str = None):
+    """
+    Список задач текущего пользователя
+    Варианты фильтра:
+    active - не выполненные
+    closed - выполненные
+    all(default) - все задачи
+    """
     user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
 
     if task_filter == 'active':
@@ -35,6 +42,8 @@ def index(task_filter: str = None):
 @login_required
 @blueprint.route('/show_task/<string:task_id>')
 def show_task(task_id: str):
+    """Показать страницу задачи"""
+
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_id).first()
     if not task:
         abort(404)
@@ -63,6 +72,11 @@ def show_task(task_id: str):
 @login_required
 @blueprint.route('/perform_task', methods=['POST'])
 def perform_task():
+    """
+    Обработка формы из задачи
+    Задача может быть выполнена или отклонена
+    """
+
     task_form = TaskForm()
 
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_form.task_id.data).first()
@@ -93,6 +107,8 @@ def perform_task():
 @login_required
 @blueprint.route('/get_file/<int:file_id>', methods=['GET'])
 def get_file(file_id: int):
+    """Выдать файл по его номеру в базе"""
+
     file = FileAttachment.query.get(file_id)
     if not file:
         abort(404)
