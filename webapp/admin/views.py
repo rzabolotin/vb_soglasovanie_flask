@@ -14,6 +14,12 @@ class MyModelView(ModelView):
         return current_user.is_authenticated and current_user.is_admin
 
 
+class MyBusinessProcessView(MyModelView):
+    """Доработаем вьюшку для бизнес процесса"""
+
+    column_list = ('bp_id', 'title', 'description', 'bp_type')
+
+
 class MyUserView(ModelView):
     """Сделаем свою функцию, которая хеширует пароль при записи пользователя"""
 
