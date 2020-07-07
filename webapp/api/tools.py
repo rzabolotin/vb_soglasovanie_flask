@@ -3,7 +3,7 @@ import json
 from typing import BinaryIO
 
 from flask import current_app, request
-from flask_marshmallow import fields
+from flask_marshmallow.fields import fields
 import pytz
 
 
@@ -129,6 +129,7 @@ def load_file_attachment(file_info: FileInfo, posted_file: BinaryIO):
 
     return file
 
+
 def api_key_is_correct():
     """Проверяет что есть параметры api_key и что он равен ключу, заданному в settings"""
 
@@ -150,15 +151,25 @@ def convert_to_vl_time(time_in_utc):
         .astimezone(tz_vl)
 
 
+class UserSchema(ma.Schema):
+    """Конвертер marshmallow для User"""
+    class Meta:
+        fields = ('id',
+                  'user_name',
+                  )
+
+
 class TaskSchema(ma.Schema):
     """Конвертер marshmallow для SoglasovanieTask"""
 
-    verdict_date = fields.fields.DateTime('%Y%m%d%H%M%S')
+    verdict_date = fields.DateTime('%Y%m%d%H%M%S')
+    user = fields.Nested(UserSchema)
 
     class Meta:
         fields = ('task_id',
                   'bp_id',
                   'user_id',
+                  'user',
                   'verdict',
                   'message',
                   'verdict_date'
