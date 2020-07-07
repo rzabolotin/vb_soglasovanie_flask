@@ -12,6 +12,7 @@ from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess, FileAt
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
@@ -32,7 +33,8 @@ def create_app():
 
     admin = Admin(app, "Настройки приложения", index_view=MyAdminIndexView())
     admin.add_view(MyUserView(User, db.session, name="Пользователи", endpoint="user_"))
-    admin.add_view(MyModelView(BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"))
+    admin.add_view(MyModelView(BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"),
+                   column_list = ('bp_id', 'title', 'description', 'bp_type'))
     admin.add_view(MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи"))
     admin.add_view(MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи"))
 
