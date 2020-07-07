@@ -2,9 +2,8 @@ from flask import abort, current_app, Blueprint, jsonify, make_response, request
 
 from webapp.model import db
 from webapp.soglasovanie.models import SoglasovanieTask, BusinessProcess, FileAttachment
-from webapp.user.models import User
-from webapp.api.tool import api_key_is_correct, convert_to_vl_time,\
-    parse_post_data, task_schema, tasks_schema
+from webapp.api.tools import api_key_is_correct, convert_to_vl_time,\
+    load_file_attachment, load_task, parse_post_data, task_schema, tasks_schema
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -53,34 +52,7 @@ def post_task():
     if not task_info:
         return abort(400)
 
-    user = User.query.filter(User.user_name == task_info.user).first()
-    if not user:
-        user = User(user_name=task_info.user)
-        db.session.add(user)
-
-    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == task_info.bp_id).first()
-    if bp:
-        bp.title = task_info.bp_title
-        bp.description = task_info.bp_description
-    else:
-        bp = BusinessProcess(
-            bp_id=task_info.bp_id,
-            bp_type=task_info.bp_type,
-            title=task_info.bp_title,
-            description=task_info.bp_description
-        )
-    db.session.add(bp)
-
-    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()
-    if not task:
-        task = SoglasovanieTask(
-            task_id=task_info.task_id,
-            bp_id=bp.bp_id,
-            user_id=user.id,
-        )
-
-    db.session.add(task)
-    db.session.commit()
+    task = load_task(task_info)
 
     return task_schema.jsonify(task)
 
@@ -99,37 +71,23 @@ def post_file():
     if not file_info:
         return abort(400)
 
-    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == file_info.bp_id).first()
-    if not bp:
-        return abort(404)
-
-    file = FileAttachment.query.filter((FileAttachment.bp_id == file_info.bp_id)
-                                       & (FileAttachment.filename == file_info.filename)).first()
-    if not file:
-        file = FileAttachment(
-            bp_id=file_info.bp_id,
-            filename=file_info.filename,
-            file_type=file_info.file_type,
-            file_ext=file_info.file_ext
-        )
-        db.session.add(file)
-        db.session.commit()
-
-    file.save_file(posted_file)
-
-    return "Файл добавлен на сервер"
+    file = load_file_attachment(file_info, posted_file)
+    if file:
+        return "Файл добавлен на сервер"
+    else:
+        abort(404)
 
 
 @blueprint.errorhandler(400)
 def not_found(error):
-    return make_response(jsonify({'error':'bad request'}), 400)
+    return make_response(jsonify({'error': 'bad request'}), 400)
 
 
 @blueprint.errorhandler(403)
 def not_found(error):
-    return make_response(jsonify({'error':'please, enter correct api key'}), 403)
+    return make_response(jsonify({'error': 'please, enter correct api key'}), 403)
 
 
 @blueprint.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'error':'not found'}), 404)
+    return make_response(jsonify({'error': 'not found'}), 404)
