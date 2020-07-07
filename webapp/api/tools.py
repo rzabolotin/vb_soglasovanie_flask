@@ -168,7 +168,6 @@ class TaskSchema(ma.Schema):
     class Meta:
         fields = ('task_id',
                   'bp_id',
-                  'user_id',
                   'user',
                   'verdict',
                   'message',
