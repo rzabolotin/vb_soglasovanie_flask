@@ -25,7 +25,7 @@ def logout():
     """Выход из профиля"""
 
     logout_user()
-    flash('Вы усешно разлогинились')
+    flash('Вы успешно разлогинились')
     return redirect(url_for('soglasovanie.index', task_filter='active'))
 
 
