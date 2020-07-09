@@ -1,0 +1,87 @@
+<legend>
+    Утверждение отгрузки с пирса <br>
+    Бизнес процесс № {{task.bp_id}}<br>
+    <b>{{task.bp.title}}</b><br>
+</legend>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Собственник ресурса</th>
+      <td>{{bp_info["Контрагент"]}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Организация</th>
+      <td>{{bp_info["Организация"]}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Инициатор</th>
+      <td>{{bp_info["Инициатор"]}}</td>
+    </tr>
+   <tr>
+      <th scope="row">Судно</th>
+      <td>{{bp_info["Судно"]}}</td>
+    </tr>
+   <tr>
+      <th scope="row">Точка погрузки пирса</th>
+      <td>{{bp_info["ТочкаПогрузкиПирса"]}}</td>
+    </tr>
+   <tr>
+      <th scope="row">Дата подхода</th>
+      <td>{{bp_info["ДатаИВремяПодхода"]}}</td>
+    </tr>
+   </tbody>
+</table>
+
+<br>
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+          <th scope="col">Ресурс</th>
+          <th scope="col">Количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in bp_info["Ресурсы"] %}
+            <tr>
+              <td scope="col">{{row["Ресурс"]}}</td>
+              <td scope="col">{{row["Количество"]}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if bp_files %}
+
+<br>
+<b> Прикрепленные файлы: </b>
+
+<ul>
+
+    {% for file_info in bp_files %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}
+
+{% if bp_reports %}
+
+<br>
+<b> Отчеты: </b>
+
+<ul>
+
+    {% for file_info in bp_reports %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}

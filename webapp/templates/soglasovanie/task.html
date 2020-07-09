@@ -43,133 +43,20 @@
 
 {% block content %}
 
-<legend>
-    Утверждение заявки на оплату <br>
-    Бизнес процесс № {{task.bp_id}}<br> 
-    <b>{{task.bp.title}}</b><br>
-</legend>
+{% if task.bp.bp_type == 'ТД_ЗаявкаНаОплату' %}
 
-<table class="table table-hover">
-  <tbody>
-    <tr>
-      <th scope="row">Контрагент</th>
-      <td>{{bp_info["Контрагент"]}}</td>
-    </tr>
-    <tr>
-      <th scope="row">Организация</th>
-      <td>{{bp_info["Организация"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">ЦФО</th>
-      <td>{{bp_info["ЦФО"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Инициатор</th>
-      <td>{{bp_info["Инициатор"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Наименование договора</th>
-      <td>{{bp_info["ДоговорКонтрагента"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Статья ДДС</th>
-      <td>{{bp_info["СтатьяДвиженияДенежныхСредств"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Назначение платежа</th>
-      <td>{{bp_info["НазначениеПлатежа"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Сумма платежа</th>
-       <td>{{bp_info["СуммаПлатежа"]}} <b>{{bp_info["Валюта"]}}</b></td>
-    </tr>
-  </tbody>
-</table>
+    {% include 'bp_content_type_1.html' %}
 
-<br>
+{% elif task.bp.bp_type == 'ТД_СогласованиеДоговора' %}
 
-<table class="table table-hover">
-    <thead class="thead-light">
-        <tr>
-          <th scope="col">Согласователи</th>
-          <th scope="col">Роль</th>
-          <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in bp_info["Согласователи"] %}
-            <tr>
-              <td scope="col">{{row["Пользователь"]}}</td>
-              <td scope="col">{{row["Роль"]}}</td>
-              <td scope="col">
-                  {% if row["Согласовано"] == "Да" %}
-                    ✔
-                  {% elif row["Согласовано"] == "Замечание" %}
-                    😠
-                  {% endif %}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% include 'bp_content_type_2.html' %}
 
-{% if bp_info["Замечания"] %}
+{% elif task.bp.bp_type == 'ТД_ОтгрузкаСПирса' %}
 
-<br>
-
-<table class="table table-hover">
-    <thead class="thead-light">
-        <tr>
-          <th scope="col">Пользователь</th>
-          <th scope="col">Замечание</th>
-          <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in bp_info["Замечания"] %}
-            <tr>
-              <td scope="col">{{row["Пользователь"]}}</td>
-              <td scope="col">{{row["Замечание"]}}</td>
-              <td scope="col">{% if row["Исправлено"] == "Да" %} ✔️{% endif %}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% include 'bp_content_type_3.html' %}
 
 {% endif %}
 
-{% if bp_files %}
-
-<br>
-<b> Прикрепленные файлы: </b>
-
-<ul>
-
-    {% for file_info in bp_files %}
-    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
-    {% endfor %}
-
-</ul>
-
-<br>
-
-{% endif %}
-
-{% if bp_reports %}
-
-<br>
-<b> Отчеты: </b>
-
-<ul>
-
-    {% for file_info in bp_reports %}
-    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
-    {% endfor %}
-
-</ul>
-
-<br>
-
-{% endif %}
 <form method="POST" action="{{url_for('soglasovanie.perform_task')}}" >
     {{form.hidden_tag()}}
 
