@@ -11,25 +11,22 @@
       <td>{{bp_info["Контрагент"]}}</td>
     </tr>
     <tr>
-      <th scope="row">Организация</th>
-      <td>{{bp_info["Организация"]}}</td>
+      <th scope="row">Судно</th>
+      <td>{{bp_info["Судно"]}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Точка погрузки пирса</th>
+      <td>{{bp_info["ТочкаПогрузкиПирса"]}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Дата подхода</th>
+      <td>{{bp_info["ДатаИВремяПодхода"]}}</td>
     </tr>
     <tr>
       <th scope="row">Инициатор</th>
       <td>{{bp_info["Инициатор"]}}</td>
     </tr>
-   <tr>
-      <th scope="row">Судно</th>
-      <td>{{bp_info["Судно"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Точка погрузки пирса</th>
-      <td>{{bp_info["ТочкаПогрузкиПирса"]}}</td>
-    </tr>
-   <tr>
-      <th scope="row">Дата подхода</th>
-      <td>{{bp_info["ДатаИВремяПодхода"]}}</td>
-    </tr>
+
    </tbody>
 </table>
 
@@ -52,7 +49,7 @@
     </tbody>
 </table>
 
-{% if bp_files %}
+{% if len(bp_files) > 0 %}
 
 <br>
 <b> Прикрепленные файлы: </b>
@@ -69,7 +66,7 @@
 
 {% endif %}
 
-{% if bp_reports %}
+{% if if len(bp_reports) > 0 %}
 
 <br>
 <b> Отчеты: </b>
