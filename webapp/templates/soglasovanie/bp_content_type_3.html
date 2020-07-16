@@ -49,7 +49,7 @@
     </tbody>
 </table>
 
-{% if len(bp_files) > 0 %}
+{% if bp_files|length > 0 %}
 
 <br>
 <b> Прикрепленные файлы: </b>
@@ -66,7 +66,7 @@
 
 {% endif %}
 
-{% if len(bp_reports) > 0 %}
+{% if bp_reports|length > 0 %}
 
 <br>
 <b> Отчеты: </b>
