@@ -45,15 +45,15 @@
 
 {% if task.bp.bp_type == 'ТД_ЗаявкаНаОплату' %}
 
-    {% include 'bp_content_type_1.html' %}
+    {% include 'soglasovanie/bp_content_type_1.html' %}
 
 {% elif task.bp.bp_type == 'ТД_СогласованиеДоговора' %}
 
-    {% include 'bp_content_type_2.html' %}
+    {% include 'soglasovanie/bp_content_type_2.html' %}
 
 {% elif task.bp.bp_type == 'ТД_ОтгрузкаСПирса' %}
 
-    {% include 'bp_content_type_3.html' %}
+    {% include 'soglasovanie/bp_content_type_3.html' %}
 
 {% endif %}
 
