@@ -39,10 +39,6 @@
       <td>{{bp_info["Комментарий"]}}</td>
     </tr>
    <tr>
-      <th scope="row">Назначение платежа</th>
-      <td>{{bp_info["НазначениеПлатежа"]}}</td>
-    </tr>
-   <tr>
       <th scope="row">Сумма договора</th>
        <td>{{bp_info["ДоговорСумма"]}} <b>{{bp_info["ДоговорВалюта"]}}</b></td>
     </tr>
@@ -98,7 +94,7 @@
 
 {% endif %}
 
-{% if bp_files %}
+{% if bp_files.count() %}
 
 <br>
 <b> Прикрепленные файлы: </b>
@@ -115,7 +111,24 @@
 
 {% endif %}
 
-{% if bp_reports %}
+{% if partner_files.count() %}
+
+<br>
+<b> Уставные документы: </b>
+
+<ul>
+
+    {% for file_info in partner_files %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}
+
+{% if bp_reports.count() %}
 
 <br>
 <b> Отчеты: </b>
