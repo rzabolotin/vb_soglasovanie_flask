@@ -54,6 +54,10 @@ def show_task(task_id: str):
         (FileAttachment.bp_id == task.bp_id)
         & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
+    partner_files = FileAttachment.query.filter(
+        (FileAttachment.bp_id == task.bp_id)
+        & (FileAttachment.file_type == "УставнойДокумент")
+    )
     bp_reports = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id)
         & (FileAttachment.file_type == "Отчет")
@@ -73,6 +77,7 @@ def show_task(task_id: str):
                            bp_info=bp_info,
                            bp_files=bp_files,
                            bp_reports=bp_reports,
+                           partner_files=partner_files,
                            form=form
                            )
 
