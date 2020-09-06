@@ -3,7 +3,7 @@ services:
   vb_sogl:
     build: .
     ports:
-      - 80:80
+      - 14234:80
     working_dir: /app
     volumes:
       - ./:/app
