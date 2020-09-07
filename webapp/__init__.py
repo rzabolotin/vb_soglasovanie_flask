@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_admin import Admin
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -42,5 +42,23 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
-        
+
+    @app.errorhandler(403)
+    def error_handler_403(e):
+        return render_template('errors/403.html'), 403
+
+    @app.errorhandler(404)
+    def error_handler_404(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def error_handler_500(e):
+        return render_template('errors/500.html'), 500
+
+    app.register_error_handler(403, error_handler_403)
+    app.register_error_handler(404, error_handler_404)
+    app.register_error_handler(500, error_handler_500)
+
     return app
+
+
