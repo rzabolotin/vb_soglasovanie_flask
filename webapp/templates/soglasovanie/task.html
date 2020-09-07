@@ -43,6 +43,13 @@
 
 {% block content %}
 
+{% if form.verdict%}
+
+<div class="alert alert-dark" role="alert">
+  Эта задача уже выполнена! Информация только для просмотра.
+</div>
+
+{% endif %}
 {% if task.bp.bp_type == 'ТД_ЗаявкаНаОплату' %}
 
     {% include 'soglasovanie/bp_content_type_1.html' %}
