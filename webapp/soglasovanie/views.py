@@ -39,14 +39,17 @@ def index(task_filter: str = None):
                            )
 
 
-@login_required
 @blueprint.route('/show_task/<string:task_id>')
+@login_required
 def show_task(task_id: str):
     """Показать страницу задачи"""
 
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_id).first()
     if not task:
         abort(404)
+
+    if task.user_id != current_user.id:
+        abort(403)
 
     page_title = task.bp.title
     bp_info = json.loads(task.bp.description)
@@ -82,8 +85,8 @@ def show_task(task_id: str):
                            )
 
 
-@login_required
 @blueprint.route('/perform_task', methods=['POST'])
+@login_required
 def perform_task():
     """
     Обработка формы из задачи
@@ -117,8 +120,8 @@ def perform_task():
                         )
 
 
-@login_required
 @blueprint.route('/get_file/<int:file_id>', methods=['GET'])
+@login_required
 def get_file(file_id: int):
     """Выдать файл по его номеру в базе"""
 
