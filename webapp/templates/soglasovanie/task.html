@@ -47,6 +47,16 @@
 
 <div class="alert alert-dark" role="alert">
   Эта задача уже выполнена! Информация только для просмотра.
+    <br>
+    {% if form.verdict == 'success'%}
+    <span class='badge badge-success'>Согласовано</span>
+  {% elif form.verdict == 'mistake'%}
+    <span class='badge badge-warning'>Отклонено</span>
+  {% else %}
+    <span class='badge badge-danger'>{{form.verdict}}</span>
+  {% endif %}
+
+
 </div>
 
 {% endif %}
