@@ -20,6 +20,7 @@ class TaskInfo:
     bp_title: str
     bp_description: str
     user: str
+    verdict: str
 
 
 @dataclass
