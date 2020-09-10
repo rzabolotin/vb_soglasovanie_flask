@@ -96,6 +96,7 @@ def load_task(task_info: TaskInfo):
             task_id=task_info.task_id,
             bp_id=bp.bp_id,
             user_id=user.id,
+            verdict=task_info.verdict
         )
 
     db.session.add(task)
