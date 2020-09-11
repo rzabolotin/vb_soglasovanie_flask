@@ -21,6 +21,7 @@ class TaskInfo:
     bp_description: str
     user: str
     verdict: str
+    message: str
 
 
 @dataclass
@@ -53,7 +54,10 @@ def parse_post_data(raw_data, data_type='task'):
     if data_type == 'task':
         if not data_json or 'task_id' not in data_json:
             return None
-        return TaskInfo(**data_json)
+        task_info = TaskInfo(**data_json)
+        if task_info.verdict == '':
+            task_info.verdict = None
+        return task_info
 
     elif data_type == 'file':
         if not data_json or 'filename' not in data_json:
@@ -96,7 +100,8 @@ def load_task(task_info: TaskInfo):
             task_id=task_info.task_id,
             bp_id=bp.bp_id,
             user_id=user.id,
-            verdict=task_info.verdict
+            verdict=task_info.verdict,
+            message=task_info.message
         )
 
     db.session.add(task)
