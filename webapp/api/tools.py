@@ -95,7 +95,10 @@ def load_task(task_info: TaskInfo):
     db.session.add(bp)
 
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()
-    if not task:
+    if task:
+        task.verdict = task_info.verdict
+        task.message = task_info.message
+    else:
         task = SoglasovanieTask(
             task_id=task_info.task_id,
             bp_id=bp.bp_id,
