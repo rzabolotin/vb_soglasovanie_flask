@@ -56,6 +56,7 @@
     <span class='badge badge-danger'>{{form.verdict}}</span>
   {% endif %}
 
+    <span>{{form.message}}</span>
 
 </div>
 
@@ -82,11 +83,12 @@
     {% set disabled_form = False %}
     {% if form.verdict == 'success' %}
         {% set checked_success = True %}
-        {% set disabled_form = True %}
     {% elif form.verdict == 'mistake' %}
         {% set checked_mistake = True %}
-        {% set disabled_form = True %}
     {% endif %}
+    {% if form.verdict %}
+        {% set disabled_form = True %}
+    {% elseif %}
 
     <div class="row">
         <div class="col-12 col-md-4">
