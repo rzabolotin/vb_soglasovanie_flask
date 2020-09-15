@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_user, logout_user, current_user
+from sqlalchemy import func
 
 from webapp.user.forms import LoginForm
 from webapp.user.models import User
@@ -37,7 +38,7 @@ def process_login():
     form = LoginForm()
     user_name_lower = form.user_name.data.lower()
     if form.validate_on_submit():
-        user = User.query.filter(User.user_name == user_name_lower).first()
+        user = User.query.filter(func.lower(User.user_name) == user_name_lower).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me)
             flash('Вы успешно вошли на сайт')
