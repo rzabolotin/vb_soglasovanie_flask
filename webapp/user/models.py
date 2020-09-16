@@ -7,6 +7,7 @@ from webapp.model import db
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(64), index=True, unique=True)
+    full_user_name = db.Column(db.String(250))
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), index=True)
     email = db.Column(db.String(50))
