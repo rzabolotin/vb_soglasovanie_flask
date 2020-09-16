@@ -76,9 +76,12 @@ def load_task(task_info: TaskInfo):
     Возвращает задачу
     """
 
-    user = User.query.filter(User.user_name == task_info.user).first()
+    user = User.query.filter(User.user_name == task_info.user.lower()).first()
     if not user:
-        user = User(user_name=task_info.user.lower())
+        user = User(
+            user_name=task_info.user.lower(),
+            full_user_name=task_info.user
+        )
         db.session.add(user)
 
     bp = BusinessProcess.query.filter(BusinessProcess.bp_id == task_info.bp_id).first()

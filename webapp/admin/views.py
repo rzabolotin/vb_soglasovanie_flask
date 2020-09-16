@@ -35,6 +35,7 @@ class MyUserView(ModelView):
     form_columns = (
         'id',
         'user_name',
+        'full_user_name',
         'email',
         'role',
         'password2',
