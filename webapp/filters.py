@@ -6,6 +6,9 @@ def register_my_jinja_filters(app):
     def datetime_vl(value):
         """ Фильтр даты для фласка, преобразует дату UTC в временную зону Владивостока"""
 
+        if not value:
+            return value
+
         DATE_FORMAT = '%d.%m.%Y %H:%M'
 
         tz_utc = pytz.utc
