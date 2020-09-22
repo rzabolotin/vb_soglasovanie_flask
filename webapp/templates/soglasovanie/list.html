@@ -7,8 +7,8 @@
     <tr>
       <th scope="col">Номер</th>
       <th scope="col">Бизнес процесс</th>
+      <th scope="col">Дата</th>
       <th scope="col">Наименование</th>
-      
       <th scope="col" style="width: 170px; text-align: center;">Вердикт</th>
     </tr>
   </thead>
@@ -21,7 +21,6 @@
           <td>{{task.bp.bp_id}}</td>
           <td>{{task.bp.date}}</td>
           <td>{{task.bp.title}}</td>
-
           <td  style="text-align: center;">
             {%if task.verdict %} 
               {% if task.verdict == 'success'%}
