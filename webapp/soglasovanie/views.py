@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 
 from webapp.model import db
 from webapp.soglasovanie.forms import TaskForm
-from webapp.soglasovanie.models import SoglasovanieTask, FileAttachment
+from webapp.soglasovanie.models import SoglasovanieTask, FileAttachment, BusinessProcess
 
 blueprint = Blueprint('soglasovanie', __name__, url_prefix='/')
 
@@ -25,11 +25,17 @@ def index(task_filter: str = None):
     user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
 
     if task_filter == 'active':
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None).all()
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)
     elif task_filter == 'closed':
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None).all()
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None)
     else:
-        list_of_tasks = user_tasks.all()
+        list_of_tasks = user_tasks
+
+    list_of_tasks = list_of_tasks\
+        .join(BusinessProcess, SoglasovanieTask.bp_id == BusinessProcess.bp_id)\
+        .order_by(BusinessProcess.date)\
+        .all()
+
     page_title = 'Все согласования'
 
     return render_template('soglasovanie/list.html',

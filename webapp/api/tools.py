@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 import json
 from typing import BinaryIO
 
@@ -18,6 +19,7 @@ class TaskInfo:
     bp_id: str
     bp_type: str
     bp_title: str
+    bp_date: str
     bp_description: str
     user: str
     verdict: str
@@ -70,6 +72,20 @@ def parse_post_data(raw_data, data_type='task'):
         return None
 
 
+def parse_date_from_string_and_convert_to_utc(date_string:str):
+    """
+    Эта функция приниммет дату, поулченную по АПИ (в формате 1с, в Владивостокском часовой пояс, и приводить ее к utc
+    """
+    DATE_FORMAT = "'%Y-%m-%dT%H:%M:%S'"
+    tz_utc = pytz.utc
+    tz_vl = pytz.timezone('Asia/Vladivostok')
+
+    value = datetime.strptime(date_string, DATE_FORMAT)
+
+    value = tz_vl.localize(value, is_dst=None)
+    return value.astimezone(tz_utc)
+
+
 def load_task(task_info: TaskInfo):
     """
     Загружает задачу и связанную информацию (User и BusinessProcess) в базу
@@ -95,6 +111,9 @@ def load_task(task_info: TaskInfo):
             title=task_info.bp_title,
             description=task_info.bp_description
         )
+    if not bp.date:
+        bp.date = parse_date_from_string_and_convert_to_utc(task_info.bp_date)
+
     db.session.add(bp)
 
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()

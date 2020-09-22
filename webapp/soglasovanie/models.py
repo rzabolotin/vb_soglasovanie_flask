@@ -9,6 +9,7 @@ from webapp.model import db
 class BusinessProcess(db.Model):
     """Бизнес процесс из 1С"""
     bp_id = db.Column(db.String(20), primary_key=True, autoincrement=False, )
+    date = db.Column(db.DateTime)
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.Text)
     bp_type = db.Column(db.String, nullable=False)

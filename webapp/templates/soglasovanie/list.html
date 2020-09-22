@@ -19,6 +19,7 @@
         <tr onclick="window.location='{{url_for('soglasovanie.show_task',task_id = task.task_id)}}'">
           <th scope="row">{{task.task_id}}</th>
           <td>{{task.bp.bp_id}}</td>
+          <td>{{task.bp.date}}</td>
           <td>{{task.bp.title}}</td>
 
           <td  style="text-align: center;">
