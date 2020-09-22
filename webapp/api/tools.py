@@ -76,7 +76,7 @@ def parse_date_from_string_and_convert_to_utc(date_string:str):
     """
     Эта функция приниммет дату, поулченную по АПИ (в формате 1с, в Владивостокском часовой пояс, и приводить ее к utc
     """
-    DATE_FORMAT = "'%Y-%m-%dT%H:%M:%S'"
+    DATE_FORMAT = "'Y-%m-%dT%H:%M:%S"
     tz_utc = pytz.utc
     tz_vl = pytz.timezone('Asia/Vladivostok')
 
