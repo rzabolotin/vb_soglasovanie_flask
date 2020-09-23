@@ -36,7 +36,6 @@ def make_sleep_if_too_many_login_attempts():
     number_login_attempt = session.get('number_login_attempt', 0)
 
     number_login_attempt += 1
-    number_login_attempt %= 10
 
     session['number_login_attempt'] = number_login_attempt
 
