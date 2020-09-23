@@ -16,10 +16,14 @@
       
       {% for task in list_of_tasks %} 
 
-        <tr onclick="window.location='{{url_for('soglasovanie.show_task',task_id = task.task_id)}}'">
+        <tr onclick="window.location='{{url_for('soglasovanie.show_task',task_id = task.task_id)}}'"
+          {% if task.bp.date | is_earlier_than_n_days(3) %}
+            class="table-warning"
+          {% endif %}
+        >
           <th scope="row">{{task.task_id}}</th>
           <td>{{task.bp.bp_id}}</td>
-          <td>{{task.bp.date | datetime_vl}}</td>
+          <td>{{task.bp.date | datetime_vl('%d.%m.%Y')}}</td>
           <td>{{task.bp.title}}</td>
           <td  style="text-align: center;">
             {%if task.verdict %} 
