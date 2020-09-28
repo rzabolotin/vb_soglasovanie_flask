@@ -18,7 +18,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(get_redirect_target())
 
-    title = "Авторизация"
+    title = "ВБ удаленное согласование| Авторизация"
     login_form = LoginForm()
     return render_template('user/login.html', page_title=title, form=login_form)
 
@@ -28,7 +28,7 @@ def logout():
     """Выход из профиля"""
 
     logout_user()
-    flash('Вы успешно разлогинились')
+    flash('Вы успешно вышли из профиля')
     return redirect(url_for('user.login'))
 
 
