@@ -120,7 +120,7 @@ def load_task(task_info: TaskInfo):
     if task and not task.verdict:
         task.verdict = task_info.verdict
         task.message = task_info.message
-    else:
+    elif not task:
         task = SoglasovanieTask(
             task_id=task_info.task_id,
             bp_id=bp.bp_id,
