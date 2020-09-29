@@ -45,15 +45,15 @@ def create_app():
 
     @app.errorhandler(403)
     def error_handler_403(e):
-        return render_template('errors/403.html'), 403
+        return render_template('errors/403.html', page_title="Ошибка"), 403
 
     @app.errorhandler(404)
     def error_handler_404(e):
-        return render_template('errors/404.html'), 404
+        return render_template('errors/404.html', page_title="Ошибка"), 404
 
     @app.errorhandler(500)
     def error_handler_500(e):
-        return render_template('errors/500.html'), 500
+        return render_template('errors/500.html', page_title="Ошибка"), 500
 
     app.register_error_handler(403, error_handler_403)
     app.register_error_handler(404, error_handler_404)

@@ -18,7 +18,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(get_redirect_target())
 
-    title = "ВБ удаленное согласование| Авторизация"
+    title = "Авторизация"
     login_form = LoginForm()
     return render_template('user/login.html', page_title=title, form=login_form)
 
