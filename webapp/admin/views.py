@@ -17,28 +17,26 @@ class MyModelView(ModelView):
 class MyBusinessProcessView(MyModelView):
     """Доработаем вьюшку для бизнес процесса"""
 
-    column_list = ('bp_id', 'title', 'description', 'bp_type')
+    column_list = ("bp_id", "title", "description", "bp_type")
 
 
 class MyUserView(ModelView):
     """Сделаем свою функцию, которая хеширует пароль при записи пользователя"""
 
-    form_excluded_columns = ('password')
+    form_excluded_columns = "password"
     #  Form will now use all the other fields in the model
 
     #  Add our own password form field - call it password2
-    form_extra_fields = {
-        'password2': PasswordField('Password')
-    }
+    form_extra_fields = {"password2": PasswordField("Password")}
 
     # set the form fields to use
     form_columns = (
-        'id',
-        'user_name',
-        'full_user_name',
-        'email',
-        'role',
-        'password2',
+        "id",
+        "user_name",
+        "full_user_name",
+        "email",
+        "role",
+        "password2",
     )
 
     def on_model_change(self, form, User, is_created):
@@ -50,9 +48,8 @@ class MyUserView(ModelView):
 
 
 class MyAdminIndexView(AdminIndexView):
-    @expose('/')
+    @expose("/")
     def index(self):
-        if (not current_user.is_authenticated
-                or not current_user.is_admin):
+        if not current_user.is_authenticated or not current_user.is_admin:
             return abort(403)
         return super(MyAdminIndexView, self).index()
