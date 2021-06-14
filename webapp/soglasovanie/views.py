@@ -1,14 +1,12 @@
 import json
 from datetime import datetime
 
-from flask import (Blueprint, abort, current_app, flash, redirect,
-                   render_template, request, send_file, url_for)
+from flask import Blueprint, abort, flash, redirect, render_template, request, send_file, url_for
 from flask_login import current_user, login_required
 
 from webapp.model import db
 from webapp.soglasovanie.forms import TaskForm
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.soglasovanie.models import BusinessProcess, FileAttachment, SoglasovanieTask
 
 blueprint = Blueprint("soglasovanie", __name__, url_prefix="/")
 
@@ -24,21 +22,17 @@ def index(task_filter: str = None):
     closed - выполненные
     all(default) - все задачи
     """
-    user_tasks = SoglasovanieTask.query.filter(
-        SoglasovanieTask.user_id == current_user.id
-    )
+    user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
 
     if task_filter == "active":
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)  # NOQA E711
     elif task_filter == "closed":
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None)
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None)  # NOQA E711
     else:
         list_of_tasks = user_tasks
 
     list_of_tasks = (
-        list_of_tasks.join(
-            BusinessProcess, SoglasovanieTask.bp_id == BusinessProcess.bp_id
-        )
+        list_of_tasks.join(BusinessProcess, SoglasovanieTask.bp_id == BusinessProcess.bp_id)
         .order_by(BusinessProcess.date)
         .all()
     )
@@ -68,12 +62,10 @@ def show_task(task_id: str):
     page_title = task.bp.title
     bp_info = json.loads(task.bp.description)
     bp_files = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id)
-        & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
+        (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
     partner_files = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id)
-        & (FileAttachment.file_type == "УставнойДокумент")
+        (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "УставнойДокумент")
     )
     bp_reports = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "Отчет")
@@ -109,9 +101,7 @@ def perform_task():
 
     task_form = TaskForm()
 
-    task = SoglasovanieTask.query.filter(
-        SoglasovanieTask.task_id == task_form.task_id.data
-    ).first()
+    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_form.task_id.data).first()
     if task.verdict:
         return redirect(url_for("soglasovanie.index", task_filter="active"))
 
@@ -147,6 +137,4 @@ def get_file(file_id: int):
     if not file:
         abort(404)
 
-    return send_file(
-        file.get_file_path(), attachment_filename=file.filename, as_attachment=True
-    )
+    return send_file(file.get_file_path(), attachment_filename=file.filename, as_attachment=True)

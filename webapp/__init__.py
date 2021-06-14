@@ -3,13 +3,11 @@ from flask_admin import Admin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-from webapp.admin.views import (MyAdminIndexView, MyBusinessProcessView,
-                                MyModelView, MyUserView)
+from webapp.admin.views import MyAdminIndexView, MyBusinessProcessView, MyModelView, MyUserView
 from webapp.api.views import blueprint as api_blueprint
 from webapp.filters import register_my_jinja_filters
 from webapp.model import db, ma
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.soglasovanie.models import BusinessProcess, FileAttachment, SoglasovanieTask
 from webapp.soglasovanie.views import blueprint as soglasovanie_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
@@ -20,7 +18,7 @@ def create_app():
     app.config.from_pyfile("config.py")
 
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db)  # NOQA F841
 
     ma.init_app(app)
 
@@ -35,17 +33,9 @@ def create_app():
 
     admin = Admin(app, "Настройки приложения", index_view=MyAdminIndexView())
     admin.add_view(MyUserView(User, db.session, name="Пользователи", endpoint="user_"))
-    admin.add_view(
-        MyBusinessProcessView(
-            BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"
-        )
-    )
-    admin.add_view(
-        MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи")
-    )
-    admin.add_view(
-        MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи")
-    )
+    admin.add_view(MyBusinessProcessView(BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"))
+    admin.add_view(MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи"))
+    admin.add_view(MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи"))
 
     register_my_jinja_filters(app)
 
