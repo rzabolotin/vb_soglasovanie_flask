@@ -43,5 +43,6 @@ sudo docker-compose up
     * wtforms - для работы с HTML-формами
 * SQLAlchemy - для работы с базой данных (использую sqlite, но можно заменить на любую SQL базу)  
 * marshmallow - для сериализации объектов в json
+* bootstrap - чтобы легко и красиво нарисовать страницы HTML
 
 
