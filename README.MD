@@ -1,6 +1,7 @@
-# VB_SOGLASOVANIE_FLASK
-
 ---
+# VB_SOGLASOVANIE_FLASK
+[![Code quality](https://github.com/rzabolotin/vb_soglasovanie_flask/actions/workflows/code-quality.yml/badge.svg?branch=master)](https://github.com/rzabolotin/vb_soglasovanie_flask/actions/workflows/code-quality.yml)
+
 Один из моих первых проектов на python, которые дошли до стадии внедрения.  
 Это прототип сайта, для согласования задач, созданных в информационной базе 1С.
 
