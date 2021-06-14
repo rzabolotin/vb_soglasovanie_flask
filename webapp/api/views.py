@@ -1,12 +1,15 @@
-from flask import (Blueprint, abort, current_app, jsonify, make_response,
-                   request)
+from flask import Blueprint, abort, jsonify, make_response, request
 
-from webapp.api.tools import (api_key_is_correct, convert_to_vl_time,
-                              load_file_attachment, load_task, parse_post_data,
-                              task_schema, tasks_schema)
-from webapp.model import db
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.api.tools import (
+    api_key_is_correct,
+    convert_to_vl_time,
+    load_file_attachment,
+    load_task,
+    parse_post_data,
+    task_schema,
+    tasks_schema,
+)
+from webapp.soglasovanie.models import SoglasovanieTask
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
 
@@ -81,12 +84,12 @@ def post_file():
 
 
 @blueprint.errorhandler(400)
-def not_found(error):
+def bad_request(error):
     return make_response(jsonify({"error": "bad request"}), 400)
 
 
 @blueprint.errorhandler(403)
-def not_found(error):
+def incorrect_key(error):
     return make_response(jsonify({"error": "please, enter correct api key"}), 403)
 
 

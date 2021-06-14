@@ -3,13 +3,16 @@ from flask_admin import Admin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-from webapp.admin.views import (MyAdminIndexView, MyBusinessProcessView,
-                                MyModelView, MyUserView)
+from webapp.admin.views import (
+    MyAdminIndexView,
+    MyBusinessProcessView,
+    MyModelView,
+    MyUserView,
+)
 from webapp.api.views import blueprint as api_blueprint
 from webapp.filters import register_my_jinja_filters
 from webapp.model import db, ma
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.soglasovanie.models import BusinessProcess, FileAttachment, SoglasovanieTask
 from webapp.soglasovanie.views import blueprint as soglasovanie_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
@@ -20,7 +23,7 @@ def create_app():
     app.config.from_pyfile("config.py")
 
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db)  # NOQA F841
 
     ma.init_app(app)
 

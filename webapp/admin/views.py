@@ -4,8 +4,6 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from wtforms import PasswordField
 
-from webapp.user.models import User
-
 
 class MyModelView(ModelView):
     """Доработаем вьюшку, сделаем доступной только админам"""

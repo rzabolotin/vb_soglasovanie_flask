@@ -8,8 +8,7 @@ from flask import current_app, request
 from flask_marshmallow.fields import fields
 
 from webapp.model import db, ma
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.soglasovanie.models import BusinessProcess, FileAttachment, SoglasovanieTask
 from webapp.user.models import User
 
 

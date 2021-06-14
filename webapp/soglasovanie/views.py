@@ -1,14 +1,21 @@
 import json
 from datetime import datetime
 
-from flask import (Blueprint, abort, current_app, flash, redirect,
-                   render_template, request, send_file, url_for)
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    send_file,
+    url_for,
+)
 from flask_login import current_user, login_required
 
 from webapp.model import db
 from webapp.soglasovanie.forms import TaskForm
-from webapp.soglasovanie.models import (BusinessProcess, FileAttachment,
-                                        SoglasovanieTask)
+from webapp.soglasovanie.models import BusinessProcess, FileAttachment, SoglasovanieTask
 
 blueprint = Blueprint("soglasovanie", __name__, url_prefix="/")
 
@@ -29,9 +36,9 @@ def index(task_filter: str = None):
     )
 
     if task_filter == "active":
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)  # NOQA E711
     elif task_filter == "closed":
-        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None)
+        list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict != None)  # NOQA E711
     else:
         list_of_tasks = user_tasks
 
