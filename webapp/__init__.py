@@ -12,6 +12,7 @@ from webapp.soglasovanie.views import blueprint as soglasovanie_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
 
+import itertools
 
 def create_app():
     app = Flask(__name__)
