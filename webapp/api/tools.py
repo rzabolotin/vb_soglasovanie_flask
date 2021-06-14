@@ -112,9 +112,7 @@ def load_task(task_info: TaskInfo):
 
     db.session.add(bp)
 
-    task = SoglasovanieTask.query.filter(
-        SoglasovanieTask.task_id == task_info.task_id
-    ).first()
+    task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()
     if task and not task.verdict:
         task.verdict = task_info.verdict
         task.message = task_info.message
@@ -144,8 +142,7 @@ def load_file_attachment(file_info: FileInfo, posted_file: BinaryIO):
         return None
 
     file = FileAttachment.query.filter(
-        (FileAttachment.bp_id == file_info.bp_id)
-        & (FileAttachment.filename == file_info.filename)
+        (FileAttachment.bp_id == file_info.bp_id) & (FileAttachment.filename == file_info.filename)
     ).first()
     if not file:
         file = FileAttachment(

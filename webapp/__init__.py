@@ -3,12 +3,7 @@ from flask_admin import Admin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-from webapp.admin.views import (
-    MyAdminIndexView,
-    MyBusinessProcessView,
-    MyModelView,
-    MyUserView,
-)
+from webapp.admin.views import MyAdminIndexView, MyBusinessProcessView, MyModelView, MyUserView
 from webapp.api.views import blueprint as api_blueprint
 from webapp.filters import register_my_jinja_filters
 from webapp.model import db, ma
@@ -38,17 +33,9 @@ def create_app():
 
     admin = Admin(app, "Настройки приложения", index_view=MyAdminIndexView())
     admin.add_view(MyUserView(User, db.session, name="Пользователи", endpoint="user_"))
-    admin.add_view(
-        MyBusinessProcessView(
-            BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"
-        )
-    )
-    admin.add_view(
-        MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи")
-    )
-    admin.add_view(
-        MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи")
-    )
+    admin.add_view(MyBusinessProcessView(BusinessProcess, db.session, name="Бизнес-процессы", category="Задачи"))
+    admin.add_view(MyModelView(SoglasovanieTask, db.session, name="Задачи", category="Задачи"))
+    admin.add_view(MyModelView(FileAttachment, db.session, name="Файлы", category="Задачи"))
 
     register_my_jinja_filters(app)
 
