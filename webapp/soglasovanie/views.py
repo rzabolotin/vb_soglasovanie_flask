@@ -16,13 +16,17 @@ blueprint = Blueprint("soglasovanie", __name__, url_prefix="/")
 @login_required
 def index(task_filter: str = None):
     """
-    Список задач текущего пользователя
+    Список задач текущего пользователя (для админа - все задачи)
     Варианты фильтра:
     active - не выполненные
     closed - выполненные
     all(default) - все задачи
     """
-    user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
+
+    if current_user.is_admin:
+        user_tasks = SoglasovanieTask.query
+    else:
+        user_tasks = SoglasovanieTask.query.filter(SoglasovanieTask.user_id == current_user.id)
 
     if task_filter == "active":
         list_of_tasks = user_tasks.filter(SoglasovanieTask.verdict == None)  # NOQA E711
@@ -56,11 +60,15 @@ def show_task(task_id: str):
     if not task:
         abort(404)
 
-    if task.user_id != current_user.id:
+    if task.user_id != current_user.id and not current_user.is_admin:
         abort(403)
 
     page_title = task.bp.title
-    bp_info = json.loads(task.bp.description)
+    try:
+        bp_info = json.loads(task.bp.description)
+    except json.decoder.JSONDecodeError:
+        bp_info = task.bp.description
+
     bp_files = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
