@@ -2,6 +2,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime
 from typing import BinaryIO
+import logging
 
 import pytz
 from flask import current_app, request
@@ -112,9 +113,11 @@ def load_task(task_info: TaskInfo):
 
     db.session.add(bp)
 
+    logging.info("loading task")
+
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()
     if task:
-        print(f"changing user {task.user_id} <- {user.id}")
+        logging.info(f"updating task. new user id {user.id}")
         task.user_id = user.id
         if not task.verdict:
             task.verdict = task_info.verdict
