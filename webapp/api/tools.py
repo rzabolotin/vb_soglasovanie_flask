@@ -113,6 +113,7 @@ def load_task(task_info: TaskInfo):
     db.session.add(bp)
 
     task = SoglasovanieTask.query.filter(SoglasovanieTask.task_id == task_info.task_id).first()
+    task.user_id = user.id
     if task and not task.verdict:
         task.verdict = task_info.verdict
         task.message = task_info.message
