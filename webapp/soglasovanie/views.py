@@ -48,6 +48,7 @@ def index(task_filter: str = None):
         page_title=page_title,
         task_filter=task_filter,
         list_of_tasks=list_of_tasks,
+        is_admin=current_user.is_admin
     )
 
 
