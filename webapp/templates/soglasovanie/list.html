@@ -27,7 +27,7 @@
         >
           <th scope="row" class="d-none d-sm-table-cell">{{task.task_id}}</th>
           {% if is_admin %}
-            <th scope="col">{{task.user.user_name}}</th>
+            <th scope="col">{{task.user.full_user_name}}</th>
           {% endif %}
           <td >{{task.bp.bp_id}}</td>
           <td class="d-none d-sm-table-cell">{{task.bp.date | datetime_vl('%d.%m.%Y')}}</td>
