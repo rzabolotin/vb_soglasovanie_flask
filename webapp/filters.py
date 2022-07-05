@@ -22,7 +22,7 @@ def register_my_jinja_filters(app):
         return local_dt.strftime(fmt)
 
     @app.template_filter("is_earlier_than_n_days")
-    def is_earlier_than_n_days(date, n_days):
+    def is_later_than_n_days(date, n_days):
         if not date:
             return False
-        return (datetime.now() - date) < timedelta(days=n_days)
+        return not (datetime.now() - date) < timedelta(days=n_days)
