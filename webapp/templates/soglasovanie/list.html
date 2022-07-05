@@ -18,7 +18,7 @@
 
         <tr onclick="window.location='{{url_for('soglasovanie.show_task',task_id = task.task_id)}}'"
           {% if task.bp.date | is_later_than_n_days(3) %}
-            class="table-error"
+            class="text-danger"
           {% endif %}
         >
           <th scope="row" class="d-none d-sm-table-cell">{{task.task_id}}</th>
