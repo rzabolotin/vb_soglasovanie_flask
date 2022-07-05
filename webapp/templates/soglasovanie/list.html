@@ -17,7 +17,7 @@
       {% for task in list_of_tasks %} 
 
         <tr onclick="window.location='{{url_for('soglasovanie.show_task',task_id = task.task_id)}}'"
-          {% if (task.bp.date | is_later_than_n_days(3)) and !task.verdict %}
+          {% if (task.bp.date | is_later_than_n_days(3)) and not task.verdict %}
             class="text-danger"
           {% endif %}
         >
