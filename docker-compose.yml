@@ -7,3 +7,7 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
+    logging:
+      options:
+        max-size: "1m"
+        max-file: "3"
