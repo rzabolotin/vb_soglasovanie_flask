@@ -25,4 +25,4 @@ def register_my_jinja_filters(app):
     def is_later_than_n_days(date, n_days):
         if not date:
             return False
-        return not (datetime.now() - date) < timedelta(days=n_days)
+        return  (datetime.now() - date) > timedelta(days=n_days)
