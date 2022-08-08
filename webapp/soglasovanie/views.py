@@ -97,6 +97,7 @@ def show_task(task_id: str):
         bp_reports=bp_reports,
         partner_files=partner_files,
         form=form,
+        is_admin=current_user.is_admin,
     )
 
 
