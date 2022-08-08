@@ -124,7 +124,28 @@
 
         </div>
     </div>
-    
+
+    {{ if is_admin }}
+
+    <div class="row">
+        <div class="col-12 col-md-8">
+              <div class="form-group">
+                <label for="verdict">Установить статус для задачи:</label>
+                <select class="form-control" id="verdict">
+                  <option>success</option>
+                  <option>mistake</option>
+                  <option>deleted</option>
+                  <option>finished</option>
+                  <option>removed_from_site</option>
+                </select>
+              </div>
+        </div>
+
+    </div>
+
+
+    {{ endif }}
+
     <button type="submit" class="btn btn-primary btn-block">Отправить</button>
 
 </form>
