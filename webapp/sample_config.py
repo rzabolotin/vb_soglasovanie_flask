@@ -13,3 +13,5 @@ REMEMBER_COOKIE_DURATION = timedelta(days=5)
 
 BP_ATTACHMENT_DIR = os.path.join(basedir, "..", "bp_files")
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+
+SAMPLE_PASS = "12345"
