@@ -73,6 +73,10 @@
 
     {% include 'soglasovanie/bp_content_type_3.html' %}
 
+{% elif task.bp.bp_type == 'ТД_Обоснование' %}
+
+    {% include 'soglasovanie/bp_content_type_4.html' %}
+
 {% endif %}
 
 <form method="POST" action="{{url_for('soglasovanie.perform_task')}}" >
