@@ -7,3 +7,8 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
