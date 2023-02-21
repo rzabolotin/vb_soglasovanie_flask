@@ -13,9 +13,9 @@ class MyModelView(ModelView):
 
 
 class MyBusinessProcessView(MyModelView):
-    """Доработаем вьюшку для бизнес процесса"""
+    """Доработаем вьюшку для бизнес-процесса"""
 
-    column_list = ("bp_id", "title", "description", "bp_type")
+    column_list = ("bp_uuid", "bp_id", "title", "description", "bp_type")
 
 
 class MyUserView(ModelView):

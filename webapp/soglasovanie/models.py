@@ -9,11 +9,8 @@ from webapp.model import db
 class BusinessProcess(db.Model):
     """Бизнес процесс из 1С"""
 
-    bp_id = db.Column(
-        db.String(20),
-        primary_key=True,
-        autoincrement=False,
-    )
+    bp_uuid = db.Column(db.String(36), primary_key=True, autoincrement=False)
+    bp_id = db.Column(db.String(20), nullable=False)
     date = db.Column(db.DateTime)
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.Text)
@@ -27,9 +24,9 @@ class SoglasovanieTask(db.Model):
     """Задача из 1С, чаще всего (по крайней мере при создании сайта) это задачи на согласование какого-либо БП"""
 
     task_id = db.Column(db.String(20), primary_key=True, autoincrement=False)
-    bp_id = db.Column(
-        db.String(20),
-        db.ForeignKey("business_process.bp_id"),
+    bp_uuid = db.Column(
+        db.String(36),
+        db.ForeignKey("business_process.bp_uuid"),
         index=True,
         nullable=False,
     )
@@ -54,9 +51,9 @@ class FileAttachment(db.Model):
 
     file_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     filename = db.Column(db.String, nullable=False)
-    bp_id = db.Column(
-        db.String(20),
-        db.ForeignKey("business_process.bp_id"),
+    bp_uuid = db.Column(
+        db.String(36),
+        db.ForeignKey("business_process.bp_uuid"),
         index=True,
         nullable=False,
     )
@@ -74,7 +71,7 @@ class FileAttachment(db.Model):
         file_path = FILES_DIR / Номер_БП / Номер_файла.РасширениеФайла
         """
         base_dir = Path(current_app.config["BP_ATTACHMENT_DIR"])
-        bp_dir = base_dir / self.bp_id
+        bp_dir = base_dir / self.bp_uuid
         bp_dir.mkdir(parents=True, exist_ok=True)
         file_name = str(self.file_id) + "." + self.file_ext
         return bp_dir / file_name

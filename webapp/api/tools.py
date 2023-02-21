@@ -16,6 +16,7 @@ from webapp.user.models import User
 @dataclass
 class TaskInfo:
     task_id: str
+    bp_uuid: str
     bp_id: str
     bp_type: str
     bp_title: str
@@ -28,7 +29,7 @@ class TaskInfo:
 
 @dataclass
 class FileInfo:
-    bp_id: str
+    bp_uuid: str
     file_type: str
     filename: str
     file_ext: str
@@ -88,7 +89,7 @@ def parse_date_from_string_and_convert_to_utc(date_string: str):
 
 def load_task(task_info: TaskInfo):
     """
-    Загружает задачу и связанную информацию (User и BusinessProcess) в базу
+    Загружает задачу и связанную информацию (User и BusinessProcess) в базу.
     Возвращает задачу
     """
 
@@ -97,12 +98,13 @@ def load_task(task_info: TaskInfo):
         user = User(user_name=task_info.user.lower(), full_user_name=task_info.user)
         db.session.add(user)
 
-    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == task_info.bp_id).first()
+    bp = BusinessProcess.query.filter(BusinessProcess.bp_uuid == task_info.bp_uuid).first()
     if bp:
         bp.title = task_info.bp_title
         bp.description = task_info.bp_description
     else:
         bp = BusinessProcess(
+            bp_uuid=task_info.bp_uuid,
             bp_id=task_info.bp_id,
             bp_type=task_info.bp_type,
             title=task_info.bp_title,
@@ -125,7 +127,7 @@ def load_task(task_info: TaskInfo):
     else:
         task = SoglasovanieTask(
             task_id=task_info.task_id,
-            bp_id=bp.bp_id,
+            bp_uuid=bp.bp_uuid,
             user_id=user.id,
             verdict=task_info.verdict,
             message=task_info.message,
@@ -139,20 +141,20 @@ def load_task(task_info: TaskInfo):
 
 def load_file_attachment(file_info: FileInfo, posted_file: BinaryIO):
     """
-    Загружаем файл, связанный с бизнес процессом
-    Если бизнес процесса нету - то не загружаем
+    Загружаем файл, связанный с бизнес-процессом
+    Если бизнес процесса нет - то не загружаем
     """
 
-    bp = BusinessProcess.query.filter(BusinessProcess.bp_id == file_info.bp_id).first()
+    bp = BusinessProcess.query.filter(BusinessProcess.bp_uuid == file_info.bp_uuid).first()
     if not bp:
         return None
 
     file = FileAttachment.query.filter(
-        (FileAttachment.bp_id == file_info.bp_id) & (FileAttachment.filename == file_info.filename)
+        (FileAttachment.bp_uuid == file_info.bp_uuid) & (FileAttachment.filename == file_info.filename)
     ).first()
     if not file:
         file = FileAttachment(
-            bp_id=file_info.bp_id,
+            bp_uuid=file_info.bp_uuid,
             filename=file_info.filename,
             file_type=file_info.file_type,
             file_ext=file_info.file_ext,

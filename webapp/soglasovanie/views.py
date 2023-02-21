@@ -36,7 +36,7 @@ def index(task_filter: str = None):
         list_of_tasks = user_tasks
 
     list_of_tasks = (
-        list_of_tasks.join(BusinessProcess, SoglasovanieTask.bp_id == BusinessProcess.bp_id)
+        list_of_tasks.join(BusinessProcess, SoglasovanieTask.bp_uuid == BusinessProcess.bp_uuid)
         .order_by(BusinessProcess.date)
         .all()
     )
@@ -71,13 +71,13 @@ def show_task(task_id: str):
         bp_info = task.bp.description
 
     bp_files = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
+        (FileAttachment.bp_uuid == task.bp_uuid) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
     partner_files = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "УставнойДокумент")
+        (FileAttachment.bp_uuid == task.bp_uuid) & (FileAttachment.file_type == "УставнойДокумент")
     )
     bp_reports = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "Отчет")
+        (FileAttachment.bp_uuid == task.bp_uuid) & (FileAttachment.file_type == "Отчет")
     )
 
     form = TaskForm(task_id=task_id, bp_type=task.bp.bp_type)
