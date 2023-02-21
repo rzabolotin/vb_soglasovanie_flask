@@ -1,0 +1,17 @@
+POST 127.0.0.1:5000/api/post_task?api_key=helloMyLittleFriendNiceToM333333333tY0000000UUUU
+Content-Type: application/json
+
+{
+  "task_id": "102",
+  "bp_uuid": "1022-122222-2233313-132123",
+  "bp_id": "ТД0000123",
+  "bp_type": "ЗаявкаНаОплату",
+  "bp_title": "Эделвейс, 10000 р, сосиски",
+  "bp_date": "2023-02-01T01:02:03",
+  "bp_description": "{'title': 'hello'}",
+  "user": "admin",
+  "verdict": "",
+  "message": ""
+
+}
+
