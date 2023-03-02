@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 SECRET_KEY = ""
 API_KEY = ""
+DEFAULT_PASS = "12345"
 
 SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "..", "webapp.db")
 SQLALCHEMY_TRACK_MODIFICATIONS = False

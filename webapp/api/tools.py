@@ -96,6 +96,7 @@ def load_task(task_info: TaskInfo):
     user = User.query.filter(User.user_name == task_info.user.lower()).first()
     if not user:
         user = User(user_name=task_info.user.lower(), full_user_name=task_info.user)
+        user.set_password(current_app.config["DEFAULT_PASS"])
         db.session.add(user)
 
     bp = BusinessProcess.query.filter(BusinessProcess.bp_uuid == task_info.bp_uuid).first()
