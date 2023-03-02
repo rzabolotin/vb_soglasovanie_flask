@@ -1,8 +1,8 @@
 """add bp_uuid
 
-Revision ID: 0b565b5c219b
+Revision ID: 72176c7af333
 Revises: 
-Create Date: 2023-02-21 15:17:13.247911
+Create Date: 2023-03-02 21:52:39.194738
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0b565b5c219b'
+revision = '72176c7af333'
 down_revision = None
 branch_labels = None
 depends_on = None
