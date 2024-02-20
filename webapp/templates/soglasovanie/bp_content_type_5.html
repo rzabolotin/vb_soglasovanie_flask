@@ -1,0 +1,55 @@
+<legend>
+    Закупочная процедура <br>
+    Бизнес процесс № {{task.bp_id}}<br>
+    <b>{{task.bp.title}}</b><br>
+</legend>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Организация</th>
+      <td>{{bp_info["Организация"]}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Иницатор</th>
+      <td>{{bp_info["Иницатор"]}}</td>
+    </tr>
+   </tbody>
+</table>
+
+<br>
+
+
+{% if bp_files.count() %}
+
+<br>
+<b> Прикрепленные файлы: </b>
+
+<ul>
+
+    {% for file_info in bp_files %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}
+
+{% if bp_reports.count() %}
+
+<br>
+<b> Отчеты: </b>
+
+<ul>
+
+    {% for file_info in bp_reports %}
+    <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
+    {% endfor %}
+
+</ul>
+
+<br>
+
+{% endif %}
