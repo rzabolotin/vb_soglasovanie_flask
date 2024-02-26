@@ -1,29 +1,80 @@
 <legend>
-    Закупочная процедура <br>
-    Бизнес процесс № {{task.bp_id}}<br>
-    <b>{{task.bp.title}}</b><br>
+    <h2>Закупочная процедура № {{task.bp_id}} </h2><br>
+    <h3>{{task.bp.title}}</h3> <br>
 </legend>
 
 <table class="table table-hover">
   <tbody>
     <tr>
       <th scope="row">Организация</th>
-      <td>{{bp_info["Организация"]}}</td>
+      <td> {{ bp_info["Организация"] }} </td>
     </tr>
     <tr>
-      <th scope="row">Иницатор</th>
-      <td>{{bp_info["Иницатор"]}}</td>
+      <th scope="row">Подразделение</th>
+      <td> {{ bp_info["Подразделение"] }} </td>
     </tr>
+    <tr>
+      <th scope="row">Инициатор</th>
+      <td> {{ bp_info["Инициатор"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Дата создания</th>
+      <td> {{ task.bp.date | datetime_vl('%d.%m.%Y') }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Дата отправки на согласование</th>
+      <td> {{ bp_info["ДатаОтправки"] }} </td>
+    </tr>
+   </tbody>
+</table>
+
+<br/>
+
+<h3> Информация о закупке </h3>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Направление</th>
+      <td> {{ bp_info["ПредметДоговора"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Предмет договора</th>
+      <td>
+        {{ bp_info["ПредметДоговораТекст"] }}
+        {% if bp_info["ДоговорРамочный"] == "Да" %}
+          (Рамочный)
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Периодичность оплаты</th>
+      <td> {{ bp_info["ПериодичностьОплаты"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Договорной документ</th>
+      <td> {{ bp_info["ДоговорнойДокумент"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Целесообразность</th>
+      <td> {{ bp_info["Цель"] }} </td>
+    </tr>
+
+    {% if bp_info["Объёмы"] %}
+    <tr>
+      <th scope="row">Объемы (ключевые физические показатели)</th>
+      <td> {{ bp_info["Объёмы"] }} </td>
+    </tr>
+    {% endif %}
    </tbody>
 </table>
 
 <br>
 
-
 {% if bp_files.count() %}
 
 <br>
-<b> Прикрепленные файлы: </b>
+<h4> Техническая документация, обоснование: </h4>
 
 <ul>
 
@@ -37,14 +88,92 @@
 
 {% endif %}
 
-{% if bp_reports.count() %}
+<h3> Участники закупки </h3>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th>Контрагент</th>
+      <th>Условия</th>
+      <th>Условия оплаты</th>
+      <th>Сумма договора</th>
+      <th>Уровень безопасности</th>
+      <th>Выбор</th>
+    </tr>
+
+    {% for participant in bp_info["ПредложенияНаРынке"] %}
+        {% set bgcolor = "" %}
+        {% if participant["УровеньБезопасности"] == "Зеленый" %}
+          {% set bgcolor = "bg-success" %}
+        {% elif participant["УровеньБезопасности"] == "Желтый" %}
+          {% set bgcolor = "bg-warning" %}
+        {% elif participant["УровеньБезопасности"] == "Красный" %}
+          {% set bgcolor = "bg-danger" %}
+        {% endif %}
+        <tr>
+          <td> {{ participant["Контрагент"] }} </td>
+          <td> {{ participant["УсловияДоговора"] }} </td>
+          <td> {{ participant["УсловияОплаты"] }} </td>
+          <td class="text-right"> {{ participant["СуммаДоговора"] }} </td>
+          <td class="text-center {{ bgcolor }}"> {{ participant["УровеньБезопасности"] }} </td>
+          <td>
+            {% if participant["ВыборДиректора"] == "Да" %} ✔ {% endif %}
+          </td>
+        </tr>
+    {% endfor %}
+</table>
 
 <br>
-<b> Отчеты: </b>
+
+<h3> Победитель </h3>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Наименование</th>
+      <td> {{ bp_info["Контрагент"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Дата договора</th>
+      <td> {{ bp_info["ДоговорДата"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Сумма договора</th>
+      <td> {{ bp_info["ДоговорСумма"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Сумма аванса</th>
+      <td> {{ bp_info["АвансСумма"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Срок выполнения</th>
+      <td> {{ bp_info["СрокВыполнения"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Порядок оплаты</th>
+      <td> {{ bp_info["ПорядокОплаты"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">ЦФО</th>
+      <td> {{ bp_info["ЦФО"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Статья БДДС</th>
+      <td> {{ bp_info["СтатьяБДДС"] }} </td>
+    </tr>
+   </tbody>
+</table>
+
+
+{% if partner_files.count() %}
+
+<br>
+<h3> Документы победителя: </h3>
 
 <ul>
 
-    {% for file_info in bp_reports %}
+    {% for file_info in partner_files
+  %}
     <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
     {% endfor %}
 

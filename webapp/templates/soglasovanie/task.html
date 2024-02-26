@@ -127,7 +127,9 @@
 
     <div class="form-group" id="messageBox">
         <div>
+            {% if not form.verdict%}
             <span style="color: red">Укажите ваше замечание</span><br>
+            {% endif %}
             <textarea name="message" class="form-control" {% if disabled_form %} disabled {% endif %}>{% if form.message %}{{form.message}}{% endif %}</textarea>
 
         </div>
