@@ -8,7 +8,7 @@ class TaskForm(FlaskForm):
     bp_type = HiddenField("Вид бизнес процесса", validators=[DataRequired()])
     verdict = RadioField(
         "Решение",
-        choices=[("success", "Утвердить"), ("mistake", "Отправить замечание")],
+        choices=[("success", "Утвердить"), ("mistake", "Отправить замечание"), ("decline", "Отклонить")],
         render_kw={"class": "d-none"},
     )
     message = StringField("Замечание")
