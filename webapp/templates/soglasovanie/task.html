@@ -123,11 +123,25 @@
                 </label>
             </div>
         </div>
+        {% if task.bp.bp_type == 'ТД_ЗакупочнаяПроцедура' %}
+        <div class="col-12 col-md-4">
+            <div class="form-check form-check-inline myDecline w-100">
+                <input class="form-check-input d-none" type="radio" name="verdict" id="declineRadio"
+                       value="decline"
+                       {% if checked_mistake %} checked {% endif %}
+                       {% if disabled_form %} disabled {% endif %}
+                >
+                <label class="decline btn btn-danger text-white" for="declineRadio">
+                    Отклонить
+                </label>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-group" id="messageBox">
         <div>
-            {% if not form.verdict%}
+            {% if not form.verdict %}
             <span style="color: red">Укажите ваше замечание</span><br>
             {% endif %}
             <textarea name="message" class="form-control" {% if disabled_form %} disabled {% endif %}>{% if form.message %}{{form.message}}{% endif %}</textarea>
