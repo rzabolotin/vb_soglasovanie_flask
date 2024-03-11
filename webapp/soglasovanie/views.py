@@ -73,7 +73,8 @@ def show_task(task_id: str):
         (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
     partner_files = FileAttachment.query.filter(
-        (FileAttachment.bp_id == task.bp_id) & ((FileAttachment.file_type  == "УставнойДокумент") | (FileAttachment.file_type == "ФайлПобедителя"))
+        (FileAttachment.bp_id == task.bp_id) &
+            (FileAttachment.file_type == "УставнойДокумент" | FileAttachment.file_type == "ФайлПобедителя")
     )
     bp_reports = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "Отчет")

@@ -43,7 +43,7 @@ def parse_post_data(raw_data, data_type="task"):
     Возвращаем соответственно TaskInfo или FileInfo
     """
 
-    if type(raw_data) == str:
+    if raw_data is str:
         data_decode = raw_data
     else:
         data_decode = raw_data.decode("utf8")
