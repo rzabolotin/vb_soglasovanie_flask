@@ -87,6 +87,8 @@ def show_task(task_id: str):
     if verdict_from_params:
         form.verdict = verdict_from_params
 
+    validation_error = request.args.get("validationError", False);
+
     return render_template(
         "soglasovanie/task.html",
         page_title=page_title,
@@ -96,6 +98,7 @@ def show_task(task_id: str):
         bp_reports=bp_reports,
         partner_files=partner_files,
         form=form,
+        validationError=validation_error,
     )
 
 
@@ -132,6 +135,7 @@ def perform_task():
                 "soglasovanie.show_task",
                 task_id=task_form.task_id.data,
                 verdict=task_form.verdict.data,
+                validationError=True
             )
         )
 

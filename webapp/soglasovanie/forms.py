@@ -15,5 +15,5 @@ class TaskForm(FlaskForm):
     submit = SubmitField("Отправить", render_kw={"class": "btn btn-primary"})
 
     def validate_message(self, message):
-        if self.verdict.data == "mistake" and not self.message.data:
+        if self.verdict.data in ["mistake", "decline"] and not self.message.data:
             raise ValidationError("Необходимо указать замечание!")
