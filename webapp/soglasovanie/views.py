@@ -88,7 +88,7 @@ def show_task(task_id: str):
     if verdict_from_params:
         form.verdict = verdict_from_params
 
-    validation_error = request.args.get("validationError", False);
+    validation_error = request.args.get("validationError", False)
 
     return render_template(
         "soglasovanie/task.html",
