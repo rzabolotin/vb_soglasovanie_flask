@@ -1,7 +1,22 @@
+<style>
+  table.table {
+    table-layout: fixed;
+  }
+  table.table th{
+    width: 30%; /* Установите необходимую ширину колонок */
+    text-align: left; /* Выравнивание текста в ячейках */
+  }
+  table.table td {
+    width: 70%; /* Установите необходимую ширину колонок */
+
+  }
+</style>
+
 <legend>
     <h2>Закупочная процедура № {{task.bp_id}} </h2><br>
     <h3>{{task.bp.title}}</h3> <br>
 </legend>
+
 
 <table class="table table-hover">
   <tbody>
@@ -134,6 +149,48 @@
       <td> {{ bp_info["Контрагент"] }} </td>
     </tr>
     <tr>
+      <th scope="row">Собственники, бенифициары</th>
+      <td> {{ bp_info["Собственники"] }} </td>
+    </tr>
+   </tbody>
+</table>
+
+<h4> Основные условия договора </h4>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Стоимость договора (тыс.руб с НДС)</th>
+      <td>
+        <strong>Итого: </strong> {{ bp_info["СтоимостьИтого"] }} <br/>
+        <strong>Текущий год: </strong> {{ bp_info["СтоимостьГод0"] }} <br/>
+        <strong>Следующий год: </strong> {{ bp_info["СтоимостьГод1"] }} <br/>
+        <strong>Следующий год: </strong> {{ bp_info["СтоимостьГод2"] }} <br/>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Единичные расценки, удельные показатели</th>
+      <td> {{ bp_info["ЕдиничныеРасценки"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Срок выполнения</th>
+      <td> {{ bp_info["СрокВыполнения"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Порядок оплаты</th>
+      <td> {{ bp_info["ПорядокОплаты"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Обеспечение</th>
+      <td> {{ bp_info["Обеспечение"] }} </td>
+    </tr>
+   </tbody>
+</table>
+
+Сделай чтобы у этих двух таблиц была одинаковая ширина колонок. HTML bootstap
+<h4> Информация о договоре </h4>
+<table class="table table-hover">
+  <tbody>
+    <tr>
       <th scope="row">Дата договора</th>
       <td> {{ bp_info["ДоговорДата"] }} </td>
     </tr>
@@ -146,20 +203,42 @@
       <td> {{ bp_info["АвансСумма"] }} </td>
     </tr>
     <tr>
-      <th scope="row">Срок выполнения</th>
-      <td> {{ bp_info["СрокВыполнения"] }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Порядок оплаты</th>
-      <td> {{ bp_info["ПорядокОплаты"] }} </td>
-    </tr>
-    <tr>
       <th scope="row">ЦФО</th>
       <td> {{ bp_info["ЦФО"] }} </td>
     </tr>
     <tr>
       <th scope="row">Статья БДДС</th>
       <td> {{ bp_info["СтатьяБДДС"] }} </td>
+    </tr>
+   </tbody>
+</table>
+
+<h4> Лимиты годового бюджета </h4>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">БДР</th>
+      <td> {{ bp_info["ЛимитБДРГодовой"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">БДДС</th>
+      <td> {{ bp_info["ЛимитБДДСГодовой"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Остаток БДДС</th>
+      <td> {{ bp_info["ОстатокБДДС"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Примечание</th>
+      <td> {{ bp_info["ЛимитБДРПримечание"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Статья ДДС</th>
+      <td> {{ bp_info["СтатьяДДС"] }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Статья ДДС (перераспределено)</th>
+      <td> {{ bp_info["СтатьяДДСПерераспределено"] }} </td>
     </tr>
    </tbody>
 </table>

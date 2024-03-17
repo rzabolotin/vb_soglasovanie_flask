@@ -18,6 +18,13 @@ class BusinessProcess(db.Model):
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.Text)
     bp_type = db.Column(db.String, nullable=False)
+    list_info1 = db.Column(db.String)
+    list_info2 = db.Column(db.String)
+    list_info3 = db.Column(db.String)
+    list_info4 = db.Column(db.String)
+    list_info5 = db.Column(db.String)
+    list_info6 = db.Column(db.String)
+    tasks_info = db.Column(db.String)
 
     def __repr__(self):
         return "<Business Process #{}:  {}>".format(self.bp_id, self.title)

@@ -9,6 +9,10 @@
       <th scope="col">Бизнес процесс</th>
       <th scope="col" class="d-none d-sm-table-cell">Дата БП</th>
       <th scope="col">Наименование</th>
+      <th scope="col">Договор</th>
+      <th scope="col">Предмет договора</th>
+      <th scope="col">Даты договора</th>
+      <th scope="col">Сумма</th>
       <th scope="col" style="width: 170px; text-align: center;">Вердикт</th>
     </tr>
   </thead>
@@ -22,9 +26,23 @@
           {% endif %}
         >
           <th scope="row" class="d-none d-sm-table-cell">{{task.task_id}}</th>
-          <td >{{task.bp.bp_id}}</td>
-          <td class="d-none d-sm-table-cell">{{task.bp.date | datetime_vl('%d.%m.%Y')}}</td>
-          <td>{{task.bp.title}}</td>
+          <td >{{ task.bp.bp_id }}</td>
+          <td class="d-none d-sm-table-cell"> {{task.bp.date | datetime_vl('%d.%m.%Y')}} </td>
+          <td> {{ task.bp.title }} </td>
+          <td> {{ task.bp.list_info1 }} </td>
+          <td>
+            {{ task.bp.list_info2 }}
+            {% if task.bp.list_info3 == 1 %}
+              (Рамочный)
+            {% endif %}
+          </td>
+          <td>
+            {{ task.bp.list_info4 }}
+            {% if task.bp.list_info5 %}
+              {{ task.bp.list_info5 }}
+            {% endif %}
+          </td>
+          <td> {{ task.bp.list_info6 }} </td>
           <td  style="text-align: center;">
             {%if task.verdict %} 
               {% if task.verdict == 'success'%}
