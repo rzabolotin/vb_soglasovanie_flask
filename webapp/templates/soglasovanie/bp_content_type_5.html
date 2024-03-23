@@ -159,29 +159,33 @@
 <table class="table table-hover">
   <tbody>
     <tr>
-      <th scope="row">Стоимость договора (тыс.руб с НДС)</th>
-      <td>
-        <strong>Итого: </strong> {{ bp_info["СтоимостьИтого"] }} <br/>
-        <strong>Текущий год: </strong> {{ bp_info["СтоимостьГод0"] }} <br/>
-        <strong>Следующий год: </strong> {{ bp_info["СтоимостьГод1"] }} <br/>
-        <strong>Следующий год: </strong> {{ bp_info["СтоимостьГод2"] }} <br/>
-      </td>
+      <th scope="row" rowspan="2">Стоимость договора (тыс.руб с НДС)</th>
+      <th class="text-center">Итого</th>
+      <th class="text-center">{{ bp_info["ЗаголовокГод0"] }}</th>
+      <th class="text-center">{{ bp_info["ЗаголовокГод1"] }}</th>
+      <th class="text-center">{{ bp_info["ЗаголовокГод2"] }}</th>
+    </tr>
+    <tr>
+      <td class="text-center">{{ bp_info["СтоимостьИтого"] }}</td>
+      <td class="text-center">{{ bp_info["СтоимостьГод0"] }}</td>
+      <td class="text-center">{{ bp_info["СтоимостьГод1"] }}</td>
+      <td class="text-center">{{ bp_info["СтоимостьГод2"] }}</td>
     </tr>
     <tr>
       <th scope="row">Единичные расценки, удельные показатели</th>
-      <td> {{ bp_info["ЕдиничныеРасценки"] }} </td>
+      <td colspan="4"> {{ bp_info["ЕдиничныеРасценки"] }} </td>
     </tr>
     <tr>
       <th scope="row">Срок выполнения</th>
-      <td> {{ bp_info["СрокВыполнения"] }} </td>
+      <td colspan="4"> {{ bp_info["СрокВыполнения"] }} </td>
     </tr>
     <tr>
       <th scope="row">Порядок оплаты</th>
-      <td> {{ bp_info["ПорядокОплаты"] }} </td>
+      <td colspan="4"> {{ bp_info["ПорядокОплаты"] }} </td>
     </tr>
     <tr>
       <th scope="row">Обеспечение</th>
-      <td> {{ bp_info["Обеспечение"] }} </td>
+      <td colspan="4"> {{ bp_info["Обеспечение"] }} </td>
     </tr>
    </tbody>
 </table>
@@ -202,20 +206,16 @@
       <th scope="row">Сумма аванса</th>
       <td> {{ bp_info["АвансСумма"] }} </td>
     </tr>
-    <tr>
-      <th scope="row">ЦФО</th>
-      <td> {{ bp_info["ЦФО"] }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Статья БДДС</th>
-      <td> {{ bp_info["СтатьяБДДС"] }} </td>
-    </tr>
    </tbody>
 </table>
 
 <h4> Лимиты годового бюджета </h4>
 <table class="table table-hover">
   <tbody>
+    <tr>
+      <th scope="row">ЦФО</th>
+      <td> {{ bp_info["ЦФО"] }} </td>
+    </tr>
     <tr>
       <th scope="row">БДР</th>
       <td> {{ bp_info["ЛимитБДРГодовой"] }} </td>

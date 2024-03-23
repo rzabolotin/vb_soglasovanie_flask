@@ -5,9 +5,7 @@
   <table class="table table-bordered table-hover">
     <thead class="thead-dark">
       <tr>
-        <th scope="col" class="d-none d-sm-table-cell">Номер</th>
-        <th scope="col">Бизнес процесс</th>
-        <th scope="col" class="d-none d-sm-table-cell">Дата БП</th>
+        <th scope="col" class="d-none d-sm-table-cell">Задача</th>
         <th scope="col">Наименование</th>
         <th scope="col">Договор</th>
         <th scope="col" class="text-center">Предмет договора</th>
@@ -25,9 +23,10 @@
               class="table-warning"
             {% endif %}
           >
-            <th scope="row" class="d-none d-sm-table-cell">{{task.task_id}}</th>
-            <td >{{ task.bp.bp_id }}</td>
-            <td class="d-none d-sm-table-cell"> {{task.bp.date | datetime_vl('%d.%m.%Y')}} </td>
+            <th scope="row" class="d-none d-sm-table-cell">
+              Задача: {{task.task_id}} <br>
+              БП № {{ task.bp.bp_id }} от {{task.bp.date | datetime_vl('%d.%m.%Y')}}
+            </th>
             <td> {{ task.bp.title }} </td>
             <td> {{ task.bp.list_info1 }} </td>
             <td>
