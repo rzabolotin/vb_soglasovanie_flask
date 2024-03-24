@@ -69,6 +69,8 @@ def show_task(task_id: str):
     except json.decoder.JSONDecodeError:
         bp_info = task.bp.description
 
+    tasks_info = json.loads(task.bp.tasks_info)
+
     bp_files = FileAttachment.query.filter(
         (FileAttachment.bp_id == task.bp_id) & (FileAttachment.file_type == "ВложениеБизнесПроцесса")
     )
@@ -95,6 +97,7 @@ def show_task(task_id: str):
         page_title=page_title,
         task=task,
         bp_info=bp_info,
+        tasks_info=tasks_info,
         bp_files=bp_files,
         bp_reports=bp_reports,
         partner_files=partner_files,

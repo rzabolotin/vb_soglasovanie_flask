@@ -251,8 +251,7 @@
 
 <ul>
 
-    {% for file_info in partner_files
-  %}
+    {% for file_info in partner_files %}
     <li><a href="{{url_for('soglasovanie.get_file', file_id=file_info.file_id)}}"> {{file_info.filename}} </a></li>
     {% endfor %}
 
@@ -261,3 +260,56 @@
 <br>
 
 {% endif %}
+
+<h3> Список задач </h3>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">Задача</th>
+      <th scope="row">
+        Дата задачи
+      </th>
+      <th scope="row">
+        Дата выполнения
+      </th>
+      <th>Пользователь</th>
+      <th>Завершена</th>
+    </tr>
+
+    {% for task in tasks_info %}
+      <tr>
+        <th scope="row"> {{ task["ТочкаМаршрута"] }} </th>
+        <td>
+          {{ task["ДатаЗадачи"] }}
+        </td>
+        <td>
+          {{ task["ДатаФактическогоВыполнения"] }}
+        </td>
+        <td> {{ task["Пользователь"] }} </td>
+        <td> {% if task["ДатаФактическогоВыполнения"] %} ✔ {% endif %} </td>
+      </tr>
+
+      {% for issue in task["Замечания"] %}
+
+        <tr>
+          <td />
+          <td colspan="4">
+            <strong>Замечание:</strong> {{ issue["Замечание"] }} <br>
+            <strong>Дата внесения:</strong> {{ issue["ДатаВнесения"] }} <br>
+            <strong>Устранено: </strong> {{ issue["ПользовательУстранил"] }} {% if issue["Устранено"] %} ✔ {% endif %} {{ issue["ДатаУстранения"] }}</td> <br>
+            {% if issue["КомментарийОбУстранении"] %}
+              <strong>Комментарий об устранении:</strong> {{ issue["КомментарийОбУстранении"] }} <br>
+            {% endif %}
+
+          </td>
+
+        </tr>
+
+      {% endfor %}
+
+    {% endfor %}
+
+   </tbody>
+
+</table>
